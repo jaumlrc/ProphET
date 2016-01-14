@@ -1,0 +1,29 @@
+#!/bin/env perl
+
+use strict;
+
+use Bio::Seq;
+use Bio::SeqIO;
+use IO::Handle;
+
+my $usage = "\n\nv0.1\nfasta2line <fasta input file> [--length]\n\n" .
+            "Convert fasta file to one sequence per line file. " .
+            "The output file is tab delimited and have the following format:\n" .
+            "<sequence>\t<id>\t[<length>]\n\n\n";
+
+die $usage if( scalar( @ARGV ) > 2 );
+
+my $inputFile         = $ARGV[0];
+
+my $inSeqIO     = Bio::SeqIO->new(-file => $inputFile, '-format' => 'Fasta');
+while ( my $inSeq = $inSeqIO->next_seq() ){
+  if( !defined( $inSeq->seq() ) ){
+    print STDERR  $inSeq->id() . " have an empty string as sequence. Sequence discarded\n";
+  } else {
+    print $inSeq->seq() . "\t" . $inSeq->id();
+    print "\t" . $inSeq->desc() if( defined( $inSeq->desc() ) );
+    print "\t" . $inSeq->length() . "\n" if( defined( $ARGV[1] ) && $ARGV[1] eq "--length" );
+    print "\n" if( ! defined( $ARGV[1] ) );
+  }
+}
+$inSeqIO->close();

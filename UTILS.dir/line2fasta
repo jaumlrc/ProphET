@@ -1,0 +1,38 @@
+#!/bin/env perl
+use strict;
+
+use Bio::Seq;
+use Bio::SeqIO;
+use IO::Handle;
+
+my $usage = "\n\nv0.2\nline2fasta [<one seq. per line file>]\n\n" .
+            "Translate back files created with the fasta2line script\n";
+
+die $usage if( scalar( @ARGV ) > 1 );
+
+my $inputFile         = $ARGV[0];
+ 
+
+if( defined( $inputFile ) ){
+
+  open INFILE, $inputFile;
+
+  while( <INFILE> ){
+  	chomp;
+    my ( $seq, $id ) = ( $_ =~ /([\w\W]+?)[\s\t]+([\w\W]+)/ );
+    $seq =~ s/(\w{60})/$1\n/g;
+    print ">$id\n$seq\n";
+  }
+
+  close INFILE;
+
+} else {
+
+  while( <> ){
+    chomp;
+    my ( $seq, $id ) = ( $_ =~ /([\w\W]+?)[\s\t]+([\w\W]+)/ );
+    $seq =~ s/(\w{60})/$1\n/g;
+    print ">$id\n$seq\n";
+  }
+}
+
