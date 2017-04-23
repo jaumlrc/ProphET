@@ -1,3 +1,23 @@
 language: perl
 perl:
-  - "5.8"
+  - "5.20"
+
+# Use this to prepare the system to install prerequisites or dependencies.
+before_install:
+  - sudo apt-get update
+  - sudo apt-get autoremove
+  - sudo apt-get install bedtools
+  - sudo apt-get install blast2
+  - sudo apt-get install emboss
+
+# Use this to install any prerequisites or dependencies necessary to run your build.
+install:
+- cpanm Bio::Seq
+- cpanm Bio::SeqIO
+- cpanm Bio::Tools::CodonTable
+- cpanm Pod::Usage
+- cpanm Getopt::Long
+- cpanm GD
+- cpanm Bio::Graphics
+- cpanm Bio::SeqFeature::Generic
+- cpanm Getopt::Std
