@@ -1,5 +1,5 @@
 
-** ProphET, Prophage Estimation Tool: a standalone prophage sequence prediction tool with self-updating reference database. **
+<h2>ProphET, Prophage Estimation Tool: a standalone prophage sequence prediction tool with self-updating reference database.</h2>
 
 João L. Reis-Cunha1,2*, Bruce W. Birren1, Daniella C. Bartholomeu2, Gustavo C. Cerqueira1*
 
@@ -8,8 +8,8 @@ João L. Reis-Cunha1,2*, Bruce W. Birren1, Daniella C. Bartholomeu2, Gustavo C. 
 2 Instituto de Ciências Biológicas, Universidade Federal de Minas Gerais, Brazil
 
 
-
-  Usage:
+```
+Usage:
     usage: ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir
       <string> [--grid] [--gff_trna <file> ] [--help]
 
@@ -26,3 +26,4 @@ João L. Reis-Cunha1,2*, Bruce W. Birren1, Daniella C. Bartholomeu2, Gustavo C. 
     --grid - Use UGER for BLAST jobs
 
     --help - print this message (Optional)
+```
