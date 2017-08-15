@@ -1,13 +1,13 @@
 
 <h2>ProphET, Prophage Estimation Tool: a standalone prophage sequence prediction tool with self-updating reference database.</h2>
 
-João L. Reis-Cunha1,2*, Bruce W. Birren1, Daniella C. Bartholomeu2, Gustavo C. Cerqueira1*
+João L. Reis-Cunha1,2, Daniella C. Bartholomeu2, Bruce W. Birren1, Gustavo C. Cerqueira1
 
 ------
 
-<sup>1</supp> Broad Institute of Harvard and MIT, Cambridge, Massachusetts, United States
+<sup>1<supp> Broad Institute of Harvard and MIT, Cambridge, Massachusetts, United States
 
-<sup>2</supp> Instituto de Ciências Biológicas, Universidade Federal de Minas Gerais, Brazil
+<sup>2<supp> Instituto de Ciências Biológicas, Universidade Federal de Minas Gerais, Brazil
 
 ------
 
