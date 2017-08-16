@@ -2,22 +2,26 @@
 use strict;
 
 
-open(LOGS, ">Third_party_programs_paths.log");
+open(LOGS, "./config.dir/Third_party_programs_paths.log");
 
-my $emboss_extractseq = `which extractseq`;
+my $emboss_extractseq = `which extractseq`; 
+die "\nERROR: Unable to find \"extractseq\", EMBOSS suite\n\n" if( $emboss_extractseq eq '' );
+
 my $blastall = `which blastall`;
+die "\nERROR: Unable to find \"blastall\", BLAST suite\n\n" if( $blastall eq '' );
+
 my $bedtools = `which bedtools`;
+die "\nERROR: Unable to find \"bedtools\"\n\n" if( $bedtools eq '' );
 
 chomp $emboss_extractseq;
 chomp $blastall;
 chomp $bedtools;
 
 print LOGS "Emboss_extractseq_path\t$emboss_extractseq\n";
-print LOGS	"Blastall_path\t$blastall\n";
+print LOGS "Blastall_path\t$blastall\n";
 print LOGS "Bedtools_path\t$bedtools\n";
 close(LOGS);
 
-`mv Third_party_programs_paths.log config.dir`; 
 
 `svn --force export https://github.com/gustavo11/GFFLib/trunk UTILS.dir/GFFLib`;
 
