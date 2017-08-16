@@ -1,0 +1,3 @@
+Emboss_extractseq_path	<place here the full path to EMBOSS program "extractseq">
+Blastall_path	<place here the full path to "blastall" executable>
+Bedtools_path	<place here the full path to "bedtools">
