@@ -7,7 +7,7 @@ João L. Reis-Cunha<sup>1,2</sup>, Daniella C. Bartholomeu<sup>2</sup>, Bruce W.
 
 <sup>1</sup> Broad Institute of Harvard and MIT, Cambridge, Massachusetts, United States
 
-<sup>2</sup> Instituto de Ciências Biológicas, Universidade Federal de Minas GeraisBrazil
+<sup>2</sup> Instituto de Ciências Biológicas, Universidade Federal de Minas Gerais, Brazil
 
 ------
 <h4>Contact</h4>
