@@ -1,4 +1,0 @@
-ABC transporter
-ABC transport-like
-ABC binding casette transporter
-ABC-type phosphate transport system
