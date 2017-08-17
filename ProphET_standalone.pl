@@ -26,7 +26,7 @@ usage: ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir <string>
 
 =head1 OPTIONS
 
-B<--fasta> - Bacterial genome Fasta file
+B<--fasta_in> - Bacterial genome Fasta file
 
 B<--gff_in> - Bacterial GFF file
 

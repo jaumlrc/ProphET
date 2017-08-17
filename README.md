@@ -69,7 +69,7 @@ test/NC_005362.1.phage_2.fas
 test/NC_005362.1.phage_3.fas
 ```
 
-A simple diagram depicting all coding genes in the bacterial genome, coding genes with significant matches to phage genes and location of predicted prophages can be found in:
+A simple diagram depicting all coding genes in the bacterial genome, coding genes with significant matches to phage genes and the location of predicted prophages can be found in:
 ```
 test/NC_005362.1.svg
 ```
@@ -83,7 +83,7 @@ test/NC_005362.1.svg
 ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir
       <string> [--grid] [--gff_trna <file> ] [--help]
 
-  Options:s
+  Options:
     --fasta - Bacterial genome FASTA file
 
     --gff_in - Bacterial GFF file
