@@ -34,7 +34,7 @@ gustavo@broadinstitute.org
 
 
 ------
-<h4>Instalation:</h4>
+<h4>Installation:</h4>
 
 To either install ProphET or to update ProphET bacteriophage database please execute the following command from ProphET's home directory:
 ```
@@ -93,7 +93,7 @@ ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir
 
     --outdir - output directory
 
-    --grid - Use UGER for BLAST jobs
+    --grid - Use UGER for BLAST jobs (Currently only works in the Broad Institute UGER grid system)
 
     --help - print this message (Optional)
 ```
