@@ -17,11 +17,17 @@ gustavo@broadinstitute.org
 
 ------
 <h4>Required libraries and programs:</h4>
+
 * EMBOSS suite
+
 * BEDTools suite
+
 * BLAST
+
 * Perl module Bio::Perl
+
 * Perl module LWP::Simple
+
 * Perl module XML::Simple
 
 
@@ -34,7 +40,7 @@ $ ./INSTALL.pl
 ```
 
 This will set the paths of required programs and download from Genbank (NCBI) all genomes associated to 16 families of bacteriophages
-(listed here *config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID*).
+(listed in *config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID*).
  
 
 ------
@@ -45,8 +51,8 @@ Usage:
     usage: ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir
       <string> [--grid] [--gff_trna <file> ] [--help]
 
-  Options:
-    --fasta - Bacterial genome Fasta file
+  Options:s
+    --fasta - Bacterial genome FASTA file
 
     --gff_in - Bacterial GFF file
 
