@@ -34,7 +34,7 @@ B<--gff_trna> - Optional parameter, in case the tRNA are reported in a separate 
 
 B<--outdir> - output directory
 
-B<--grid> - Use UGER for BLAST jobs
+B<--grid> - Use UGER for BLAST jobs (Currently only works in the Broad Institute UGER grid system)
 
 B<--help> - print this message B<(Optional)>
 
