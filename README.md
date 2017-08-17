@@ -93,7 +93,7 @@ ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir
 
     --outdir - output directory
 
-    --grid - Use UGER for BLAST jobs
+    --grid - Use UGER for BLAST jobs (Currently only works in the Broad Institute UGER grid system)
 
     --help - print this message (Optional)
 ```
