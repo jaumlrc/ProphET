@@ -33,6 +33,32 @@ gustavo@broadinstitute.org
 * Perl module GD
 
 
+
+------
+<h4>Installing Perl modules:</h4>
+
+Perl modules can be installed using CPAN modules. But first certify that CPAN modules is already configured by issuing the command below:
+$ sudo perl -MCPAN -e shell
+If the command above returns the prompt 'cpan[1]>' or similar prompt then the CPAN module is already configured. So quit the cpan shell by typing:
+cpan[1]> quit
+
+If the command returns a text saying that 'CPAN requires configuration...' follow the steps for automatic configuration of CPAN and select the 'sudo' option when asked for "how to prepare the Perl library".
+Select the default option in every other question. Quit CPAN after the configuration is done by typing:
+cpan[1]> quit
+
+If the command returns:
+```Can't locate CPAN.pm in @INC (@INC contains:... ```
+then you will need Administrative privileges to install CPAN either using apt-get:
+```sudo  apt-get install build-essential```
+or yum:
+```sudo yum install perl-CPAN```
+
+Now you are ready to install the required Perl modules. Issue the following commands:
+
+$ sudo perl -MCPAN -e 'install Bio::Perl'
+$ sudo perl -MCPAN -e 'install Config::Validate'
+
+
 ------
 <h4>Installation:</h4>
 
