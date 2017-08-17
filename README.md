@@ -17,10 +17,12 @@ gustavo@broadinstitute.org
 
 ------
 <h4>Required libraries and programs:</h4>
-* EMBOSS suite.
-* BEDTools suite.
-* BLAST.
-* BioPerl.
+* EMBOSS suite
+* BEDTools suite
+* BLAST
+* Perl module Bio::Perl
+* Perl module LWP::Simple
+* Perl module XML::Simple
 
 
 ------

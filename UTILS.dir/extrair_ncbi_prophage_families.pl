@@ -17,8 +17,9 @@ for (my $i=0; $i<=$#N_seq; $i++) {
 	my @temp1 = split (/\t/, $N_seq[$i]); 
 	my $name = $temp1[0];
 	my $Tx_id = $temp1[1];
+	print "Downloading $name from Genbank (NCBI) ...\n";
 	mkdir ("$name.dir", 0755);
 	chdir "$name.dir";
-	`../UTILS.dir/retrieve_proteins.sh $name $Tx_id report.txt`;
+	my $output = system("../../UTILS.dir/retrieve_proteins.sh $name $Tx_id");
 	chdir "../";
 }

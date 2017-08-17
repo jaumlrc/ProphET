@@ -2,14 +2,18 @@
 
 use strict;
 use LWP::Simple;
+use XML::Simple;
+#use Data::Dumper;
 
 my ( $name, $outname, $url, $xml, $out, $count, $query_key, $webenv, $ids );
 my @genomeId;
+my @genomeId_nuccore;
 my $base  = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
 #my $limit = 'srcdb+refseq[prop]+AND+gene+in+chromosome[prop])';
 my $limit = 'srcdb+refseq[prop]';
 
 my $s = $ARGV[0];
+my $debug = 0;
 
 undef @genomeId;
 $query_key = $webenv = '';
@@ -17,34 +21,53 @@ $s =~ s/ /+/g;
 
 # ESearch
 $url = $base . "esearch.fcgi?db=genome&term=txid" . $s . "[Organism:exp]&usehistory=y";
-print "URL1: " . $url . "\n";
+print "URL esearch 1: " . $url . "\n" if $debug;
 $xml = get($url);
-$count = $1 if ( $xml =~ /<Count>(\d+)<\/Count>/ );
+
+if ( $xml =~ /<Count>(\d+)<\/Count>/ ){
+	$count = $1;
+}
+
+print "Number of genomes: $count\n" if $debug;
+
 if ( $count > 20 ) {
 	$url =
 	    $base
 	  . "esearch.fcgi?db=genome&term==txid"
 	  . $s
 	  . "[Organism:exp]&retmax=$count&usehistory=y";
-	print "URL2: " . $url . "\n";
+	print "URL esearch 2: " . $url . "\n" if $debug;
 	$xml = get($url);
 }
 while ( $xml =~ /<Id>(\d+?)<\/Id>/gs ) {
-	push( @genomeId, $1 );
+	my $curr_genome_id = $1;
+	print "$curr_genome_id\n" if $debug;
+	push( @genomeId, $curr_genome_id );
 }
 $ids = join( ',', @genomeId );
 
 # ELink
-$url = $base . "elink.fcgi?dbfrom=genome&db=nuccore&cmd=neighbor_history&id=$ids&term=$limit&usehistory=y";
+$url = $base . "elink.fcgi?dbfrom=genome&db=nuccore&id=$ids&term=$limit&usehistory=y";
+print "URL elink: $url\n" if $debug;
 $xml       = get($url);
-print "URL elink: $url\n";
-$query_key = $1 if ( $xml =~ /<QueryKey>(\d+)<\/QueryKey>/ );
-$webenv    = $1 if ( $xml =~ /<WebEnv>(\S+)<\/WebEnv>/ );
+
+# create object
+my $xmlIn = new XML::Simple( ForceArray => 1 );
+
+# read XML file
+my $xmlContent = $xmlIn->XMLin($xml);
+
+my $id_nuccore = '';
+foreach my $value ( @{$xmlContent->{'LinkSet'}->[0]->{'LinkSetDb'}->[0]->{'Link'}} ){
+  $id_nuccore .= $value->{'Id'}->[0] . ",";
+}
+
+$id_nuccore =~ s/,$//;
 
 # EFetch
-	$url = $base . "efetch.fcgi?db=nuccore&query_key=$query_key&WebEnv=$webenv&rettype=gb&retmode=text";
-	print "URL efetch: $url\n";
-	$out = get($url);
+$url = $base . "efetch.fcgi?db=nuccore&id=$id_nuccore&rettype=gb&retmode=text";
+print "URL efetch: $url\n" if $debug;
+$out = get($url);
 	
 open( OUT, ">$s.gb" );
 print OUT $out;

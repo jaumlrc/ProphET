@@ -14,7 +14,7 @@ for (my $j=0; $j<=$#N_seq; $j++) {
         my @temp1 = split (/\t/, $N_seq[$j]);
         my $name = $temp1[0];
 	chdir "$name.dir";
-	my @temp_seq = `cat *.fasta.prot`;
+	my @temp_seq = `cat all.prot.fas`;
 	push (@proteinseq, @temp_seq);
 	chdir "../";
 }
