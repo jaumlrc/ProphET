@@ -34,7 +34,7 @@ gustavo@broadinstitute.org
 ------
 <h4>Instalation:</h4>
 
-To either install ProphET or to update ProphET bacteriophage database please execute the following command from ProphET home directory:
+To either install ProphET or to update ProphET bacteriophage database please execute the following command from ProphET's home directory:
 ```
 $ ./INSTALL.pl
 ```
@@ -44,11 +44,20 @@ This will set the paths of required programs and download from Genbank (NCBI) al
  
 
 ------
-<h4>Execution:</h4>
+
+<h4>Testing installation:</h4>
+
+From ProphET's home directory execute the following command:
+```
+$ ./ProphET_standalone.pl --fasta test.fasta --gff_in test.gff --outdir test
+```
+
+------
+
+<h4>Usage:</h4>
 
 ```
-Usage:
-    usage: ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir
+ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir
       <string> [--grid] [--gff_trna <file> ] [--help]
 
   Options:s
@@ -65,3 +74,4 @@ Usage:
 
     --help - print this message (Optional)
 ```
+
