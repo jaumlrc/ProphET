@@ -34,7 +34,7 @@ gustavo@broadinstitute.org
 
 
 ------
-<h4>Instalation:</h4>
+<h4>Installation:</h4>
 
 To either install ProphET or to update ProphET bacteriophage database please execute the following command from ProphET's home directory:
 ```
