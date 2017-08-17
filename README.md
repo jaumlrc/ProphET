@@ -84,7 +84,7 @@ ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir
       <string> [--grid] [--gff_trna <file> ] [--help]
 
   Options:
-    --fasta - Bacterial genome FASTA file
+    --fasta_in - Bacterial genome FASTA file
 
     --gff_in - Bacterial GFF file
 
