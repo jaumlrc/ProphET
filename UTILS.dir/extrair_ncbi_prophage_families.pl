@@ -1,6 +1,12 @@
-#!user/bin/perl
+#!/bin/env perl
+
 use strict;
-#Utiliza como entrada um arquivo contento o nome da família do virus e o Taxonomy ID do NCBI separados por tab, e utiliza o script do Gustavo para obter todas as informacoes do genoma.
+
+# Given a tab delimited file having as the first column
+# a bacteriophage family and its respective
+# Taxonomy ID (NCBI) as the second column
+# this script retrieves from Genbank the proteome 
+# of all species belonging to each family
 
 my $input = $ARGV[0];
 open (INPUT, "$input");
@@ -13,6 +19,6 @@ for (my $i=0; $i<=$#N_seq; $i++) {
 	my $Tx_id = $temp1[1];
 	mkdir ("$name.dir", 0755);
 	chdir "$name.dir";
-	`../../UTILS.dir/./retrieve_proteins.sh $name $Tx_id report.txt`;
+	`../UTILS.dir/retrieve_proteins.sh $name $Tx_id report.txt`;
 	chdir "../";
 }

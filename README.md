@@ -16,6 +16,14 @@ jaumlrc@gmail.com
 gustavo@broadinstitute.org
 
 ------
+<h4>Required libraries and programs:</h4>
+* EMBOSS suite.
+* BEDTools suite.
+* BLAST.
+* BioPerl.
+
+
+------
 
 ```
 Usage:
