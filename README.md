@@ -30,6 +30,8 @@ gustavo@broadinstitute.org
 
 * Perl module XML::Simple
 
+* Perl module GD
+
 
 ------
 <h4>Instalation:</h4>
@@ -51,6 +53,23 @@ From ProphET's home directory execute the following command:
 ```
 $ ./ProphET_standalone.pl --fasta test.fasta --gff_in test.gff --outdir test
 ```
+The execution should take ~ 5 minutes. 
+ProphET should report 3 putative prophages, as indicated in the file *test/phages_coords*:
+```
+NC_005362.1     1       327710  378140
+NC_005362.1     2       502194  519268
+NC_005362.1     3       1292553 1330556
+```
+
+The nucleotide sequence of each prophage can be found on:
+```
+test/NC_005362.1.phage_1.fas
+test/NC_005362.1.phage_2.fas
+test/NC_005362.1.phage_3.fas
+```
+
+
+
 
 ------
 
