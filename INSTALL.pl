@@ -1,14 +1,17 @@
 #!/bin/env perl
 use strict;
 
+
+
 #-----------------------------------------
+
 print "Looking for required programs in the enviroment PATH...\n";
 my $config_file = "./config.dir/Third_party_programs_paths.log";
 
 open(LOGS, ">$config_file" ) or die "Unable to write on config file: $config_file\n";
 
 my $emboss_extractseq = `which extractseq`; 
-die "\tERROR: Unable to find \"extractseq\", EMBOSS suite\n" if( $emboss_extractseq eq '' );
+die "\nERROR: Unable to find \"extractseq\", EMBOSS suite\n" if( $emboss_extractseq eq '' );
 chomp $emboss_extractseq;
 print "\tFound EMBOSS extractseq: $emboss_extractseq\n";
 
@@ -40,20 +43,35 @@ print "Downloading GFFLib ...\n";
 my $output = system("svn --force export https://github.com/gustavo11/GFFLib/trunk UTILS.dir/GFFLib");
 die "ERROR: Unable to download GFFLib from github\n\n" if( $output );
 
+
+#-----------------------------------------
+print "Creating database directory...\n";
+
+my $database_dir = "PhrophET_phage_proteins_database.dir";
+
+if( !( -e $database_dir ) ){
+	mkdir($database_dir, 0755) or 
+	die "ERROR: Unable to create directory $database_dir\n";
+}
+
+
 #-----------------------------------------
 print "Downloading Phage sequences ...\n";
 my $temp = "ProphET_install_temp.dir";
-mkdir($temp, 0755) or 
+
+if( !( -e $temp ) ){
+	mkdir($temp, 0755) or 
 	die "ERROR: Unable to create directory $temp\n";
+}
 	
 chdir "$temp" or 
 	die "ERROR: Unable to enter directory $temp\n";
 	
-$output = system("perl ../UTILS.dir/extrair_ncbi_prophage_families.pl" . 
-	"../config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID");
+$output = system("../UTILS.dir/extrair_ncbi_prophage_families.pl ../config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID");
+	
 die "ERROR: Unable to execute extrair_ncbi_prophage_families.pl\n\n" if( $output );
 
-`perl ../UTILS.dir/obtain_prot_with_annot_seq.pl ../config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID >Phage_proteins_pre_raw.db`;
+`perl ../UTILS.dir/obtain_prot_with_annot_seq.pl ../config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID > Phage_proteins_pre_raw.db`;
 
 #-----------------------------------------
 print "Formating sequences ...\n";
@@ -63,7 +81,7 @@ print "Formating sequences ...\n";
 
 
 #-----------------------------------------
-print "Removing ABC-Transporters ...";
+print "Removing ABC-Transporters ...\n";
 `grep -wf ../config.dir/ABC_transporters_to_grep.txt Phage_proteins_raw.line | sort -u | awk '{print ">"\$2"\\n"\$1}' > ABC_transporters_seqs.fasta`;
 `$formatdb -p T -i Phage_proteins_raw.db`;
 `blastall -p blastp -d Phage_proteins_raw.db -i ABC_transporters_seqs.fasta -e 1e-5 -m8 -o ABC_trans_BLAST_matches`;
@@ -72,9 +90,9 @@ print "Removing ABC-Transporters ...";
 
 #-----------------------------------------
 
-mkdir("PhrophET_phage_proteins_database.dir", 0755);
-`cp Phage_proteins_without_ABC-t.db ../PhrophET_phage_proteins_database.dir`;
-chdir "../PhrophET_phage_proteins_database.dir";
+
+`cp Phage_proteins_without_ABC-t.db ../database_dir`;
+chdir "../database_dir";
 `formatdb -p T -i Phage_proteins_without_ABC-t.db`;
 
 #-----------------------------------------

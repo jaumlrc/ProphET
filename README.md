@@ -26,6 +26,19 @@ gustavo@broadinstitute.org
 
 
 ------
+<h4>Instalation:</h4>
+
+To install ProphET or to update ProphET phage database execute the following command from ProphET home directory:
+```
+$ ./INSTALL.pl
+```
+
+This will set the paths of required programs and download from Genbank (NCBI) all genomes associated to 16 families of bacteriophages
+(listed here *config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID*).
+ 
+
+------
+<h4>Execution:</h4>
 
 ```
 Usage:
