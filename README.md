@@ -22,7 +22,7 @@ gustavo@broadinstitute.org
 ------
 <h4>Required libraries and programs:</h4>
 
-Broad users don't need to install any of the suites of programs and libraries listed below. Please follow the instructions on ```README_BROAD_USERS.md``` before installing ProphET.
+Broad users don't need to install any of the suites of programs and libraries listed below. Please follow the instructions on [README_BROAD_USERS.md](README_BROAD_USERS.md)  before installing ProphET.
 
 * EMBOSS suite
 
