@@ -45,7 +45,7 @@ $ ./INSTALL.pl
 This will search for required library, set the paths of required programs and download from Genbank (NCBI) all genomes associated to 16 families of bacteriophages
 (listed in *config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID*).
 
-** If the script fails and reports missing Perl modules/libraries, please folow the instrucions on file README_INSTALLING_PERL_MODULES.md on how to install those.**
+**If the script fails and reports missing Perl modules/libraries, please folow the instrucions on file README_INSTALLING_PERL_MODULES.md on how to install those.**
  
 
 ------
