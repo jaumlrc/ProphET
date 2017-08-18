@@ -38,9 +38,26 @@ print LOGS "Formatdb_path\t$formatdb\n";
 print LOGS "Bedtools_path\t$bedtools\n";
 close(LOGS);
 
+
+#-----------------------------------------
+print "Looking for required Perl libraries...\n";
+
+my $output = system("perl -e 'use Bio::Perl;'");
+die "\nERROR: Unable to find Perl module Bio::Perl\n\n" if( $output );
+
+$output = system("perl -e 'use LWP::Simple;'");
+die "\nERROR: Unable to find Perl module LWP::Simple\n\n" if( $output );
+
+$output = system("perl -e 'use XML::Simple;'");
+die "\nERROR: Unable to find Perl module XML::Simple\n\n" if( $output );
+
+$output = system("perl -e 'use GD;'");
+die "\nERROR: Unable to find Perl module GD\n\n" if( $output );
+
+
 #-----------------------------------------
 print "Downloading GFFLib ...\n";
-my $output = system("svn --force export https://github.com/gustavo11/GFFLib/trunk UTILS.dir/GFFLib");
+$output = system("svn --force export https://github.com/gustavo11/GFFLib/trunk UTILS.dir/GFFLib");
 die "ERROR: Unable to download GFFLib from github\n\n" if( $output );
 
 
