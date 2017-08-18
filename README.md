@@ -61,7 +61,7 @@ Some warnings will be issued during the setup of ProphET DB. See some examples b
 Warning: bad /anticodon value '(pos:complement(13054..13056),aa:Met,seq:cat)'
 Warning: NC_022920: Bad value '(pos:complement(13054..13056),aa:Met,seq:cat)' for tag '/anticodon'
 ```
-Those warnings refer to unexpected format for coordinates of tRNA features and won't affect the execution.
+Those warnings refer to unexpected format for coordinates of tRNA features and they won't affect the execution.
 
 
 **If the script fails and reports missing Perl modules/libraries, please folow the instrucions on file  [README_INSTALLING_PERL_MODULES.md](README_INSTALLING_PERL_MODULES.md) on how to install those.**
