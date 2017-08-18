@@ -37,13 +37,14 @@ gustavo@broadinstitute.org
 ------
 <h4>Installing CPAN:</h4>
 
-Perl modules can be installed using CPAN modules. But first certify that CPAN modules is already configured by issuing the command below:
-``$ sudo perl -MCPAN -e shell``
+Perl modules can be installed using CPAN. Please first certify that CPAN is installed and configured by issuing the command below:
+
+``$ perl -MCPAN -e shell``
 
 
-* If the command above returns the prompt 'cpan[1]>' or similar prompt then the CPAN module is already configured. So quit the cpan shell by typing: ```cpan[1]> quit```
+* If the command above returns the prompt ```cpan[1]>``` or similar prompt then CPAN is already configured. So quit the cpan shell by typing: ```cpan[1]> quit```
 
-* If the command returns a text saying that 'CPAN requires configuration...' follow the steps for automatic configuration of CPAN. Select the default option in every other question. Quit CPAN after the configuration is done by typing: ```cpan[1]> quit```
+* If the command returns a text saying that 'CPAN requires configuration...' follow the steps for automatic configuration. Select the default option in every question. Quit CPAN after the configuration is done by typing: ```cpan[1]> quit```
 
 * If the command returns: ```Can't locate CPAN.pm in @INC (@INC contains:... ``` then you will need Administrative privileges to install CPAN either using apt-get ```sudo  apt-get install build-essential``` or yum ```sudo yum install perl-CPAN```
 
