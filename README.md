@@ -56,12 +56,16 @@ This will search for required libraries, set the paths of required programs and 
 (listed in [config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID](config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID) ).
 
 
+
+
 Some warnings will be issue during the setup of ProphETDB. See some examples below: 
 ```
 Warning: bad /anticodon value '(pos:complement(13054..13056),aa:Met,seq:cat)'
 Warning: NC_022920: Bad value '(pos:complement(13054..13056),aa:Met,seq:cat)' for tag '/anticodon'
 ```
 Those warnings refer to unexpected features in the Genbank record. Please disregard.
+
+
 
 
 **If the script fails and reports missing Perl modules/libraries, please folow the instrucions on file  [README_INSTALLING_PERL_MODULES.md](README_INSTALLING_PERL_MODULES.md) on how to install those.**
