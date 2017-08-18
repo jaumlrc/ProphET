@@ -35,32 +35,31 @@ gustavo@broadinstitute.org
 
 
 ------
-<h4>Installing Perl modules:</h4>
+<h4>Installing CPAN:</h4>
 
 Perl modules can be installed using CPAN modules. But first certify that CPAN modules is already configured by issuing the command below:
-$ sudo perl -MCPAN -e shell
-If the command above returns the prompt 'cpan[1]>' or similar prompt then the CPAN module is already configured. So quit the cpan shell by typing:
-cpan[1]> quit
+``$ sudo perl -MCPAN -e shell``
 
-If the command returns a text saying that 'CPAN requires configuration...' follow the steps for automatic configuration of CPAN and select the 'sudo' option when asked for "how to prepare the Perl library".
-Select the default option in every other question. Quit CPAN after the configuration is done by typing:
-cpan[1]> quit
 
-If the command returns:
-```Can't locate CPAN.pm in @INC (@INC contains:... ```
-then you will need Administrative privileges to install CPAN either using apt-get:
-```sudo  apt-get install build-essential```
-or yum:
-```sudo yum install perl-CPAN```
+* If the command above returns the prompt 'cpan[1]>' or similar prompt then the CPAN module is already configured. So quit the cpan shell by typing: ```cpan[1]> quit```
+
+* If the command returns a text saying that 'CPAN requires configuration...' follow the steps for automatic configuration of CPAN. Select the default option in every other question. Quit CPAN after the configuration is done by typing: ```cpan[1]> quit```
+
+* If the command returns: ```Can't locate CPAN.pm in @INC (@INC contains:... ``` then you will need Administrative privileges to install CPAN either using apt-get ```sudo  apt-get install build-essential``` or yum ```sudo yum install perl-CPAN```
+
+<h4>Installing Perl modules:</h4>
 
 Now you are ready to install the required Perl modules. Issue the following commands:
 
-$ sudo perl -MCPAN -e 'install Bio::Perl'
-$ sudo perl -MCPAN -e 'install Config::Validate'
-
+```
+$ perl -MCPAN -e 'install Bio::Perl'
+$ perl -MCPAN -e 'install LWP::Simple'
+$ perl -MCPAN -e 'install XML::Simple'
+$ perl -MCPAN -e 'install GD'
+```
 
 ------
-<h4>Installation:</h4>
+<h4>ProphET installation:</h4>
 
 To either install ProphET or to update ProphET bacteriophage database please execute the following command from ProphET's home directory:
 ```
