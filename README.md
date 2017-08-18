@@ -32,11 +32,15 @@ Broad users don't need to install any of the suites of programs and libraries li
 
 * Perl module Bio::Perl
 
+* Perl module Bio::Graphics
+
 * Perl module LWP::Simple
 
 * Perl module XML::Simple
 
 * Perl module GD
+
+* Perl moduel GD::SVG
 
 
 
