@@ -1,7 +1,10 @@
 
-<h2>ProphET, Prophage Estimation Tool: a standalone prophage sequence prediction tool with self-updating reference database.</h2>
+<a href="http://www.biorxiv.org/content/early/2017/08/16/176750"><h2>ProphET, Prophage Estimation Tool: a standalone prophage sequence prediction tool with self-updating reference database.</h2></a>
 
 João L. Reis-Cunha<sup>1,2</sup>, Daniella C. Bartholomeu<sup>2</sup>, Ashlee M. Earl<sup>1</sup>,  Bruce W. Birren<sup>1</sup>, Gustavo C. Cerqueira<sup>1</sup>
+
+
+<a href="http://www.biorxiv.org/content/early/2017/08/16/176750">Manuscript draft in BioRxiv</a>
 
 ------
 
@@ -11,7 +14,8 @@ João L. Reis-Cunha<sup>1,2</sup>, Daniella C. Bartholomeu<sup>2</sup>, Ashlee M
 
 ------
 <h4>Contact</h4>
-jaumlrc@gmail.com
+
+<a href="mailto:jaumlrc@gmail.com">jaumlrc@gmail.com</a>
 
 gustavo@broadinstitute.org
 
