@@ -1,4 +1,4 @@
-<h4> Setting up environment on Broad UNIX systems </h4>
+<h4> Setting up environment to run ProphET on Broad UNIX systems </h4>
 
 Broad users only need to load the following dot kits before installing and running ProphET
 
