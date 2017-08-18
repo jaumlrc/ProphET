@@ -24,5 +24,3 @@ $ perl -MCPAN -e 'install LWP::Simple'
 $ perl -MCPAN -e 'install XML::Simple'
 $ perl -MCPAN -e 'install GD'
 ```
-
-------
