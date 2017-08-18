@@ -63,7 +63,7 @@ Some warnings will be issue during the setup of ProphETDB. See some examples bel
 Warning: bad /anticodon value '(pos:complement(13054..13056),aa:Met,seq:cat)'
 Warning: NC_022920: Bad value '(pos:complement(13054..13056),aa:Met,seq:cat)' for tag '/anticodon'
 ```
-Those warnings refer to unexpected features in the Genbank record. Please disregard.
+Those warnings refer to unexpected format for coordinates of tRNA features and won't affect the execution.
 
 
 
