@@ -1,4 +1,4 @@
-#!user/bin/perl
+#!/bin/env perl
 use strict;
 #Obtem e junta todos os arquivos do proteoma de virus gerados pelo scrip do gustavo
 
