@@ -48,6 +48,8 @@ Perl modules can be installed using CPAN. Please first certify that CPAN is inst
 
 * If the command returns: ```Can't locate CPAN.pm in @INC (@INC contains:... ``` then you will need Administrative privileges to install CPAN either using apt-get ```sudo  apt-get install build-essential``` or yum ```sudo yum install perl-CPAN```
 
+------
+
 <h4>Installing Perl modules:</h4>
 
 Now you are ready to install the required Perl modules. Issue the following commands:
