@@ -108,8 +108,8 @@ print "Removing ABC-Transporters ...\n";
 #-----------------------------------------
 
 
-`cp Phage_proteins_without_ABC-t.db ../database_dir`;
-chdir "../database_dir";
+`cp Phage_proteins_without_ABC-t.db ../$database_dir`;
+chdir "../$database_dir";
 `formatdb -p T -i Phage_proteins_without_ABC-t.db`;
 
 #-----------------------------------------
