@@ -42,7 +42,7 @@ Perl modules can be installed using CPAN. Please first certify that CPAN is inst
 ``$ perl -MCPAN -e shell``
 
 
-* If the command above returns the prompt ```cpan[1]>``` or similar prompt then CPAN is already configured. So quit the cpan shell by typing: ```cpan[1]> quit```
+* If the command above returns the prompt ```cpan[1]>``` or similar prompt, then CPAN is already configured. So quit the cpan shell by typing: ```cpan[1]> quit```
 
 * If the command returns ```CPAN requires configuration...``` then follow the steps for automatic configuration. Select the default option in every question. Quit CPAN after the configuration is done by typing: ```cpan[1]> quit```
 
