@@ -12,25 +12,23 @@ use Getopt::Std;
 use GFFFile;
 
 my $MAX_E_VALUE    = 1000;
-#my $DEFAULT_WIDTH  = 1500;
-my $DEFAULT_WIDTH  = 5000; #retirei 2 zeros (era 500000) para diminuir a figura
+my $DEFAULT_WIDTH  = 5000; 
 
 my $DEFAULT_COLOR  = "blue";
 my $LEFT_BORDER    = 0;
 
 
-my $gff_file     = $ARGV[0];
-my $fasta_file   = $ARGV[1];
-my $outputFile   = $ARGV[2];
-my $Blast_matches = $ARGV[3];			
-my $Phage_coordnates = $ARGV[4];		
+my $gff_file     		= $ARGV[0];
+my $fasta_file   		= $ARGV[1];
+my $outputFile  			= $ARGV[2];
+my $Blast_matches 		= $ARGV[3];			
+my $Phage_coordinates 	= $ARGV[4];		
 
 ### Gerar a figura inicial e a Linha baseada no Fasta:
 
-my $width = $DEFAULT_WIDTH;		## Joao - Tamanho da figura;
-my $overallMaxLength = 0;		## Joao - COntador inicial do maior genoma do arquivo - para traçar a linha
-
-my %fasta_seq;					## Joao - Hash inicializado apenas uma vez. Nao mais acessado.
+my $width = $DEFAULT_WIDTH;		## Sets the width of figure
+my $overallMaxLength = 0;		## Stores the length of the largest scaffold. This will be used to define the ratio bp/pixel
+my %fasta_seq;					## Stores the length of each sequence. Not being used currently, but it will be used in the next versions of ProphET
 my @fasta_seqnames;
 
 ######################
@@ -46,7 +44,7 @@ while ( my $inSeq = $inSeqIO->next_seq() ) {
 		my $seq_length = $inSeq->length();
 		my $seq_name   = $inSeq->id();
 
-		push( @fasta_seqnames, $seq_name );	## Joao - hash contendo o nome e tamanho das sequencias fasta
+		push( @fasta_seqnames, $seq_name );	##  Array with the names of the scaffolds
 		$fasta_seq{$seq_name}{len} = $seq_length;
 
 		$overallMaxLength = $seq_length if ( $overallMaxLength < $seq_length );
@@ -58,19 +56,20 @@ print STDERR "Largest sequence in the FASTA files has $overallMaxLength\n";
 
 
 ######################
-# Gera o painel onde serão plotadas as figuras
-my $panel = Bio::Graphics::Panel->new(  ## Joao - gera o painel onde serão geradas as figuras
-	-length      => $overallMaxLength, 	## Joao - Coloca a linha referente ao maior tamanho da sequencia
+# Generate the base panel in which all the widgets will be rendered
+my $panel = Bio::Graphics::Panel->new(  
+	-length      => $overallMaxLength, 	## Sets the lenght in bp to the length of the largest scaffold
 	-key_style	 => 'between',
 	-image_class => 'GD::SVG',
-	-width       => $width,				## Joao - Usa o tamanho da imagem previamente setado
-	-pad_left    => 40,					## Joao - Pads sao os deslocamentos das bordas
+	-width       => $width,				## sets the length in pixels
+	-pad_left    => 40,					
 	-pad_right   => 200, 
 	-pad_top     => 40,
 	-pad_bottom  => 40,
 	);
+
 ######################
-# Gera a seta com base no fasta
+# Adds the X-axis arrow indicating the coordinates on the scaffold
 my $full_length = Bio::SeqFeature::Generic->new(-start=>1,-end=> $overallMaxLength);
   $panel->add_track($full_length,
                     -glyph   => 'arrow',
@@ -82,7 +81,7 @@ my $full_length = Bio::SeqFeature::Generic->new(-start=>1,-end=> $overallMaxLeng
                     );
 
 ######################
-# Gera os resultados do GFF
+# Adds the track that will contain all the CDSs in the scaffold
 
  my $track = $panel->add_track(-glyph => 'graded_segments',
                                 -label  => 0,
@@ -93,9 +92,9 @@ my $full_length = Bio::SeqFeature::Generic->new(-start=>1,-end=> $overallMaxLeng
                                 -height   => 8,
 
   								);
-  open (INPUT1,"<$ARGV[0]");
+  open (INPUT1,"$gff_file");
 
-  while (<INPUT1>) { # read blast file
+  while (<INPUT1>) { # reads GFF file
     chomp;
     next if /^\#/;  # ignore comments
     my($name,$start,$end) = split /\t+/;
@@ -112,22 +111,21 @@ my $full_length = Bio::SeqFeature::Generic->new(-start=>1,-end=> $overallMaxLeng
 
 
 ######################
-# Gera os resultados do BLAST
+# Add track that will contain the BLAST results against ProphET database
  my $track = $panel->add_track(-glyph => 'graded_segments',
                                 -label  => 0,
                                 -bgcolor => 'green',
                                 -fgcolor => 'black',
                                 -key => "Blast Matches:",
                                 -fgcolor => 'black',
-                                -font2color => 'red',
-                                
+                                -font2color => 'red',                                
                                 -bump     => +1,
                                 -height   => 8,
 
   								);
-  open (INPUT2,"<$ARGV[3]");
+  open (INPUT2,"$Blast_matches");
 
-  while (<INPUT2>) { # read blast file
+  while (<INPUT2>) { # reads blast results file
     chomp;
     next if /^\#/;  # ignore comments
     my($name,$start,$end) = split /\t+/;
@@ -140,7 +138,7 @@ my $full_length = Bio::SeqFeature::Generic->new(-start=>1,-end=> $overallMaxLeng
   close (INPUT2);
 
 ######################
-# Gera os resultados do Phage prediction
+# Add track that will contain the boundaries of the prophage predictions
 my $track = $panel->add_track(-glyph => 'graded_segments',
                                 -label  => 0,
                                 -bgcolor => 'cyan',
@@ -150,9 +148,9 @@ my $track = $panel->add_track(-glyph => 'graded_segments',
                                 -height   => 8,
 
   								);
-  open (INPUT3,"<$ARGV[4]");
+  open (INPUT3,"$Phage_coordinates");
 
-  while (<INPUT3>) { # read blast file
+  while (<INPUT3>) { # reads prophage coordinates
     chomp;
     next if /^\#/;  # ignore comments
     my($name,$start,$end) = split /\t+/;
@@ -164,7 +162,7 @@ my $track = $panel->add_track(-glyph => 'graded_segments',
   }
   close (INPUT3);
 
-open OUTPUT, ">" . $outputFile;   ### Joao - Aqui termina de gerar as figuras. O que esta abaixo eh subrotina
+open OUTPUT, ">" . $outputFile; 
 print OUTPUT $panel->svg;
 close OUTPUT;
 

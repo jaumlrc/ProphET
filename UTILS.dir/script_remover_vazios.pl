@@ -3,9 +3,9 @@
 use strict;
 use warnings;
 
-$/="\n>";
+$/ = "\n>";
 while (<>) {
-    s/>//g;
-        my ($id, $seq) = split (/\n/, $_);
-	    print ">$_" if (length $seq);
-	    }
+	s/>//g;
+	my ( $id, $seq ) = split( /\n/, $_ );
+	print ">$_" if ( length $seq );
+}
