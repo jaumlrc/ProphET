@@ -123,34 +123,5 @@ OPTIONS
        (Currently only works in the Broad Institute UGER grid system)
 
        --help - print this message (Optional)
-
-DESCRIPTION
-       Important! The Fasta and GFF file MUST have the exact scaffold/chrom IDs.  
-       And the GFF should have the format described by Sequence Ontology
-       consortium: https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md
-
-       Ex.:
-
-       Fasta:
-
-       >NC_005362.1
-
-       TTGTTTGATCTAGATAAATTTTGGCAATTTTTTAATGCTGAGATGAAAAAAAGCTACAGCACGGTTGCCT
-
-       ATAATGCTTGGTTTAAAAATACTAAACCAATTTCCTTTAATAAAAAGACAAAAGAAATGATAATCGCTGT
-
-       GFF:
-
-       NC_005362.1     .       gene    1       1365    .       +       .       ID=LJ_RS00005;Name=LJ_RS00005;
-
-       NC_005362.1     .       mRNA    1       1365    .       +       .       ID=LJ_RS00005.t01;Parent=LJ_RS00005;
-
-       NC_005362.1     .       exon    1       1365    .       +       .       ID=LJ_RS00005.t01-E1;Parent=LJ_RS00005.t01;
-
-       NC_005362.1     .       CDS     1       1365    .       +       0       ID=LJ_RS00005.p01;Parent=LJ_RS00005.t01;
-
-CONTACT
-       Joao Luis R. Cunha (2017) jaumlrc@gmail.com jaumlrc@broadinstitute.org
-       Gustavo C. Cerqueira (2017) cerca11@gmail.com gustavo@broadinstitute.org
 ```
 
