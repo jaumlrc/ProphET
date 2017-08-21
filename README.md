@@ -102,21 +102,51 @@ test/NC_005362.1.svg
 <h4>Usage:</h4>
 
 ```
-ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir
-      <string> [--grid] [--gff_trna <file> ] [--help]
+NAME
+       ProphET is a user friendly algorithm to identify prophages within prokaryote genomes.
 
-  Options:
-    --fasta_in - Bacterial genome FASTA file
+SYNOPSIS
+       usage: ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir <string> [--grid] [--gff_trna <file> ] [--help]
 
-    --gff_in - Bacterial GFF file
+OPTIONS
+       --fasta_in - Bacterial genome Fasta file
 
-    --gff_trna - Optional parameter, in case the tRNAs are reported in a
-    separate GFF please provide it here <(Optional)>
+       --gff_in - Bacterial GFF file
 
-    --outdir - output directory
+       --gff_trna - Optional parameter, in case the tRNAs are reported in a separate GFF please provide it here <(Optional)>
 
-    --grid - Use UGER for BLAST jobs (Currently only works in the Broad Institute UGER grid system)
+       --outdir - output directory
 
-    --help - print this message (Optional)
-```
+       --grid - Use UGER for BLAST jobs (Currently only works in the Broad Institute UGER grid system)
+
+       --help - print this message (Optional)
+
+DESCRIPTION
+       Important! The Fasta and GFF file MUST have the exact scaffold/chrom IDs.  And the GFF should have the format described by Sequence Ontology
+       consortium: https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md
+
+       Ex.:
+
+       Fasta:
+
+       >NC_005362.1
+
+       TTGTTTGATCTAGATAAATTTTGGCAATTTTTTAATGCTGAGATGAAAAAAAGCTACAGCACGGTTGCCT
+
+       ATAATGCTTGGTTTAAAAATACTAAACCAATTTCCTTTAATAAAAAGACAAAAGAAATGATAATCGCTGT
+
+       GFF:
+
+       NC_005362.1     .       gene    1       1365    .       +       .       ID=LJ_RS00005;Name=LJ_RS00005;
+
+       NC_005362.1     .       mRNA    1       1365    .       +       .       ID=LJ_RS00005.t01;Parent=LJ_RS00005;
+
+       NC_005362.1     .       exon    1       1365    .       +       .       ID=LJ_RS00005.t01-E1;Parent=LJ_RS00005.t01;
+
+       NC_005362.1     .       CDS     1       1365    .       +       0       ID=LJ_RS00005.p01;Parent=LJ_RS00005.t01;
+
+CONTACT
+       Joao Luis R. Cunha (2017) jaumlrc@gmail.com jaumlrc@broadinstitute.org
+
+       Gustavo C. Cerqueira (2017) cerca11@gmail.com gustavo@broadinstitute.org```
 
