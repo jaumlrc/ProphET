@@ -98,9 +98,9 @@ test/NC_005362.1.svg
 ------
 <h4>Before testing in your own genome</h4>
 
-. Check if the GFF file that will be provided to ProphET has the format specified by [The Sequence Ontology Consortium](https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md)
+* Check if the GFF file that will be provided to ProphET has the format specified by [The Sequence Ontology Consortium](https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md)
 
-. Check if all sequences IDs in the FASTA file (header of each sequence) matches perfectly the source field in the GFF file (first column of the GFF) and vice-versa.
+* Check if all sequences IDs in the FASTA file (header of each sequence) matches perfectly the source field in the GFF file (first column of the GFF) and vice-versa.
 
 ------
 
