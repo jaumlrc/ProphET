@@ -110,7 +110,7 @@ ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir
 
     --gff_in - Bacterial GFF file
 
-    --gff_trna - Optional parameter, in case the tRNA are reported in a
+    --gff_trna - Optional parameter, in case the tRNAs are reported in a
     separate GFF please provide it here <(Optional)>
 
     --outdir - output directory
