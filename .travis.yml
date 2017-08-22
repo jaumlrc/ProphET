@@ -35,7 +35,7 @@ before_script: true
 # Anything else is considered failure.
 script:
   - ./INSTALL.pl
-  - ./ProphET_standalone.pl --fasta test.fasta --gff_in test.gff --outdir test
+  - travis_wait ./ProphET_standalone.pl --fasta test.fasta --gff_in test.gff --outdir test
 
 after_success: true
 
