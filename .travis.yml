@@ -19,7 +19,7 @@ before_install:
 # Use this to install any prerequisites or dependencies necessary to run your build.
 install:
   - cpanm GD
-  - cpanm --verbose GD::SVG
+  - cpanm --verbose --force GD::SVG
   - cpanm Bio::Graphics
   - cpanm LWP::Perl
   - cpanm LWP::Simple
