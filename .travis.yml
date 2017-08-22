@@ -37,6 +37,7 @@ before_script: true
 script:
   - ./INSTALL.pl
   - travis_wait ./ProphET_standalone.pl --fasta test.fasta --gff_in test.gff --outdir test
+  - diff -r test expected_output_of_test
 
 after_success: true
 
