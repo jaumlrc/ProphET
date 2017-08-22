@@ -20,9 +20,10 @@ Now you are ready to install the required Perl modules. Issue the following comm
 
 ```
 $ perl -MCPAN -e 'install Bio::Perl'
+$ perl -MCPAN -e 'install SVG'
+$ perl -MCPAN -e 'install GD'
+$ perl -MCPAN -e 'install GD::SVG'
 $ perl -MCPAN -e 'install Bio::Graphics'
 $ perl -MCPAN -e 'install LWP::Simple'
 $ perl -MCPAN -e 'install XML::Simple'
-$ perl -MCPAN -e 'install GD'
-$ perl -MCPAN -e 'install GD::SVG'
 ```
