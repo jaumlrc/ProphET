@@ -84,15 +84,13 @@ FORMAT:
 
 CONTENT:
 NC_005362.1     1       327710  378140
-NC_005362.1     2       502194  519268
-NC_005362.1     3       1292553 1330556
+NC_005362.1     2       1292553 1330556
 ```
 
 The nucleotide sequence of each prophage can be found in:
 ```
 test/NC_005362.1.phage_1.fas
 test/NC_005362.1.phage_2.fas
-test/NC_005362.1.phage_3.fas
 ```
 
 A simple diagram depicting all coding genes in the bacterial genome, coding genes with significant matches to phage genes and the location of predicted prophages can be found in:
