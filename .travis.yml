@@ -23,7 +23,6 @@ install:
   - cpanm --verbose DB_File
   - cpanm --verbose --force GD::SVG
   - cpanm --verbose Bio::Graphics
-  - cpanm --verbose LWP::Perl
   - cpanm --verbose LWP::Simple
   - cpanm --verbose XML::Simple
 
