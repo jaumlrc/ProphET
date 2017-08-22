@@ -19,12 +19,12 @@ before_install:
 # Use this to install any prerequisites or dependencies necessary to run your build.
 install:
   - cpanm GD
-  - cpanm DB_File
+  - cpanm --verbose DB_File
   - cpanm --verbose --force GD::SVG
   - cpanm --verbose Bio::Graphics
-  - cpanm LWP::Perl
-  - cpanm LWP::Simple
-  - cpanm XML::Simple
+  - cpanm --verbose LWP::Perl
+  - cpanm --verbose LWP::Simple
+  - cpanm --verbose XML::Simple
 
 # Use this to prepare your build for testing
 # e.g. copy database configurations, environment variables, etc.
