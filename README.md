@@ -22,7 +22,7 @@ gustavo@broadinstitute.org
 ------
 <h4>Required libraries and programs:</h4>
 
-Broad users don't need to install any of the of programs and libraries listed below. Please follow the instructions on [README_BROAD_USERS.md](README_BROAD_USERS.md)  before installing ProphET.
+Broad users don't need to install any of the of programs and libraries listed below. If you are **Broadie** please follow the instructions on [README_BROAD_USERS.md](README_BROAD_USERS.md)  before installing and running ProphET.
 
 * EMBOSS suite
 
@@ -79,6 +79,10 @@ The execution should take ~ 5 minutes.
 
 Three putative prophages should be reported and its coordinates indicated in the file *test/phages_coords*:
 ```
+FORMAT:
+<scaffold>  <#prophage> <genomic.start.coord> <genomic.end.coord>
+
+CONTENT:
 NC_005362.1     1       327710  378140
 NC_005362.1     2       502194  519268
 NC_005362.1     3       1292553 1330556
@@ -95,28 +99,35 @@ A simple diagram depicting all coding genes in the bacterial genome, coding gene
 ```
 test/NC_005362.1.svg
 ```
+------
+<h4>Before running ProphET in your favorite bacterial genome</h4>
 
+* Check if the GFF file that will be provided to ProphET has the format specified by [The Sequence Ontology Consortium](https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md)
+
+* Check if all sequences IDs in the FASTA file (header of each sequence) matches perfectly the source field in the GFF file (first column of the GFF) and vice-versa.
 
 ------
 
 <h4>Usage:</h4>
 
 ```
-ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir
-      <string> [--grid] [--gff_trna <file> ] [--help]
+    ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir
+    <string> [--grid] [--gff_trna <file> ] [--help]
 
-  Options:
-    --fasta_in - Bacterial genome FASTA file
+Options:
+    --fasta_in - Bacterial genome Fasta file
 
     --gff_in - Bacterial GFF file
 
-    --gff_trna - Optional parameter, in case the tRNA are reported in a
+    --gff_trna - Optional parameter, in case the tRNAs are reported in a
     separate GFF please provide it here <(Optional)>
 
     --outdir - output directory
 
-    --grid - Use UGER for BLAST jobs (Currently only works in the Broad Institute UGER grid system)
+    --grid - Use UGER for BLAST jobs (Currently only works in the Broad
+    Institute UGER grid system) (Optional)
 
-    --help - print this message (Optional)
+    --help - print this and some additional info. about FASTA and GFF input
+    format (Optional)
 ```
 
