@@ -11,6 +11,7 @@ before_install:
   - sudo apt-get install libgd3
   - sudo apt-get install libgd-dev
   - sudo apt-get install libgd-perl  
+  - sudo apt-get install libgd-svg-perl
   - sudo apt-get install bioperl
   
 
