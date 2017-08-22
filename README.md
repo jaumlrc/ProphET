@@ -107,26 +107,24 @@ test/NC_005362.1.svg
 <h4>Usage:</h4>
 
 ```
-NAME
-       ProphET is a user friendly algorithm to identify prophages within prokaryote genomes.
+Usage:
+    usage: ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir
+    <string> [--grid] [--gff_trna <file> ] [--help]
 
-SYNOPSIS
-       usage: ProphET_standalone.pl --fasta_in <file> --gff_in <file> 
-       --outdir <string> [--grid] [--gff_trna <file> ] [--help]
+Options:
+    --fasta_in - Bacterial genome Fasta file
 
-OPTIONS
-       --fasta_in - Bacterial genome Fasta file
+    --gff_in - Bacterial GFF file
 
-       --gff_in - Bacterial GFF file
+    --gff_trna - Optional parameter, in case the tRNAs are reported in a
+    separate GFF please provide it here <(Optional)>
 
-       --gff_trna - Optional parameter, in case the tRNAs are reported in a separate GFF 
-       please provide it here <(Optional)>
+    --outdir - output directory
 
-       --outdir - output directory
+    --grid - Use UGER for BLAST jobs (Currently only works in the Broad
+    Institute UGER grid system) (Optional)
 
-       --grid - Use UGER for BLAST jobs 
-       (Currently only works in the Broad Institute UGER grid system)
-
-       --help - print this message (Optional)
+    --help - print this and some additional info. about FASTA and GFF input
+    format (Optional)
 ```
 
