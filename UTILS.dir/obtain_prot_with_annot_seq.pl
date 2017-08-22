@@ -1,4 +1,4 @@
-#!/bin/env perl
+#!/usr/bin/env perl
 
 use strict;
 # Retrieves and concatenate the protein sequences retrieved from Genbank (NCBI)
