@@ -19,6 +19,7 @@ before_install:
 
 # Use this to install any prerequisites or dependencies necessary to run your build.
 install:
+  - cpanm SVG
   - cpanm GD
   - cpanm DB_File
   - cpanm --force GD::SVG
