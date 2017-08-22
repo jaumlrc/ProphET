@@ -96,7 +96,7 @@ test/NC_005362.1.phage_1.fas
 test/NC_005362.1.phage_2.fas
 ```
 
-A simple diagram depicting all coding genes in the bacterial genome, coding genes with significant matches to phage genes and the location of predicted prophages can be found in:
+The program also renders a simple diagram depicting all coding genes in the bacterial genome, coding genes with significant matches to phage genes and the location of predicted prophages:
 ```
 test/NC_005362.1.svg
 ```
