@@ -107,8 +107,7 @@ test/NC_005362.1.svg
 <h4>Usage:</h4>
 
 ```
-Usage:
-    usage: ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir
+    ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir
     <string> [--grid] [--gff_trna <file> ] [--help]
 
 Options:
