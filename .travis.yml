@@ -20,11 +20,11 @@ before_install:
 # Use this to install any prerequisites or dependencies necessary to run your build.
 install:
   - cpanm GD
-  - cpanm --verbose DB_File
-  - cpanm --verbose --force GD::SVG
-  - cpanm --verbose Bio::Graphics
-  - cpanm --verbose LWP::Simple
-  - cpanm --verbose XML::Simple
+  - cpanm DB_File
+  - cpanm --force GD::SVG
+  - cpanm Bio::Graphics
+  - cpanm LWP::Simple
+  - cpanm XML::Simple
 
 # Use this to prepare your build for testing
 # e.g. copy database configurations, environment variables, etc.
@@ -34,6 +34,7 @@ before_script: true
 # All commands must exit with code 0 on success. 
 # Anything else is considered failure.
 script:
+  - ./INSTALL.pl
   - ./ProphET_standalone.pl --fasta test.fasta --gff_in test.gff --outdir test
 
 after_success: true
