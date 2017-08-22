@@ -32,15 +32,18 @@ Broad users don't need to install any of the of programs and libraries listed be
 
 * Perl module Bio::Perl
 
+* Perl module SVG
+
+* Perl module GD
+
+* Perl moduel GD::SVG
+
 * Perl module Bio::Graphics
 
 * Perl module LWP::Simple
 
 * Perl module XML::Simple
 
-* Perl module GD
-
-* Perl moduel GD::SVG
 
 
 
