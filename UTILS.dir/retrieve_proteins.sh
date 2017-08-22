@@ -50,7 +50,7 @@ transeq $txid.fasta $txid.prot -auto
 
 # Remove "*" STOP codons from each sequence
 echo "Removing * representing STOP codons ..."
-../../UTILS.dir/fasta2line $txid.prot | perl -lane '$seq = $F[0]; $seq =~ s/\*$//; print $seq . "\t" . $F[1]' | ../../UTILS.dir/line2fasta > all.prot.fas
+../../UTILS.dir/fasta2line $txid.prot | perl -lane '$seq = $F[0]; $seq =~ s/\*$//; print $seq . "\t" . join " ", @F[1..$#F]' | ../../UTILS.dir/line2fasta > all.prot.fas
 
 # Number of CDS and mat_peptides
 num_CDS_mat=`grep -c ">" all.prot.fas`
