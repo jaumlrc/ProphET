@@ -1,0 +1,37 @@
+language: perl
+perl:
+  - "5.8"
+
+# Use this to prepare the system to install prerequisites or dependencies.
+before_install:
+  - sudo apt-get update
+  - sudo apt-get autoremove
+  - sudo apt-get install emboss
+  - sudo apt-get install bedtools
+  - sudo apt-get install bioperl
+
+
+# Use this to install any prerequisites or dependencies necessary to run your build.
+install:
+  - cpanm Bio::Graphics
+  - cpanm LWP::Perl
+  - cpanm LWP::Simple
+  - cpanm XML::Simple
+  - cpanm GD
+  - cpanm GD::SVG
+
+# Use this to prepare your build for testing
+# e.g. copy database configurations, environment variables, etc.
+before_script: true
+
+# Default is specific to project language
+# All commands must exit with code 0 on success. 
+# Anything else is considered failure.
+script:
+  - ./ProphET_standalone.pl --fasta test.fasta --gff_in test.gff --outdir test
+
+after_success: true
+
+after_failure: true
+
+after_script: true

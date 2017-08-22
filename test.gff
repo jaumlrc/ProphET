@@ -1,3 +1,6 @@
+##gff-version	3
+# File name: test.gff
+# Organism: Unknown
 NC_005362.1	.	gene	1	1365	.	+	.	ID=LJ_RS00005;Name=LJ_RS00005;
 NC_005362.1	.	mRNA	1	1365	.	+	.	ID=LJ_RS00005.t01;Parent=LJ_RS00005;
 NC_005362.1	.	exon	1	1365	.	+	.	ID=LJ_RS00005.t01-E1;Parent=LJ_RS00005.t01;

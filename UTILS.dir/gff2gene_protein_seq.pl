@@ -5,18 +5,6 @@ use FindBin;
 use lib "$FindBin::Bin/GFFLib";
 
 
-#my $Utils_dir = "$FindBin::Bin/GFFLib";
-#use lib "$Utils_dir";
-#use lib "/cil/shed/sandboxes/gustavo/joao/PhrophET_Standalone_folder-3.dir/UTILS.dir/GFFLib";
-
-#my $shalalala = "/cil/shed/sandboxes/gustavo/joao/PhrophET_Standalone_folder-3.dir/UTILS.dir/GFFLib";
-#use lib "$shalalala";
-#print "\n\n*********$Utils_dir************";
-
-#print "$Utils_dir\n\n";
-#print "/cil/shed/sandboxes/gustavo/joao/PhrophET_Standalone_folder-3.dir/UTILS.dir/GFFLib";
-
-
 use GFFFile;
 use GFFUtils;
 use Bio::SeqIO;

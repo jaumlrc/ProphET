@@ -1,23 +1,19 @@
 #!/bin/env perl
 
-#####
-# Todo:
-# Check if results are the same: grid vs no grid
-# Check if the results are adequate. Graph is good...
-# DO NOT FORGET to change back splitfasta to the one in UTILS directory
-
-# DONE: Save BLAST and fragmented FASTA in a separate directory
-# DONE: Implement ways of checking if job submissions were successful
-
 use strict;
 use Pod::Usage;
 
 use Getopt::Long;
 use FindBin;
 
+use lib "$FindBin::Bin/UTILS.dir/GFFLib"; 
+
+use GFFFile;
+
+
 =head1 NAME
 
-ProphET is a user friendly algorithm to identify prophages within prokaryote genomes.
+ProphET is a user friendly algorithm to identify prophages in bacterial genomes.
 
 =head1 SYNOPSIS
 
@@ -30,47 +26,44 @@ B<--fasta_in> - Bacterial genome Fasta file
 
 B<--gff_in> - Bacterial GFF file
 
-B<--gff_trna> - Optional parameter, in case the tRNA are reported in a separate GFF please provide it here <(Optional)>
+B<--gff_trna> - Optional parameter, in case the tRNAs are reported in a separate GFF please provide it here <(Optional)>
 
 B<--outdir> - output directory
 
-B<--grid> - Use UGER for BLAST jobs (Currently only works in the Broad Institute UGER grid system)
+B<--grid> - Use UGER for BLAST jobs (Currently only works in the Broad Institute UGER grid system) B<(Optional)>
 
-B<--help> - print this message B<(Optional)>
+B<--help> - print this and some additional info. about FASTA and GFF input format B<(Optional)>
 
 =head1 DESCRIPTION
 
-B<Important! The Fasta and GFF file MUST have the exact same ID:>
+B<Important! The FASTA and GFF file MUST have the exact scaffold/chrom IDs.
+The GFF file should have the format described by Sequence Ontology consortium:
+https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md >
+
 B<Ex.:>
 
-Fasta:
+ FASTA:
 
->NC_005362.1
-
-TTGTTTGATCTAGATAAATTTTGGCAATTTTTTAATGCTGAGATGAAAAAAAGCTACAGCACGGTTGCCT
-
-ATAATGCTTGGTTTAAAAATACTAAACCAATTTCCTTTAATAAAAAGACAAAAGAAATGATAATCGCTGT
+ >NC_005362.1
+ TTGTTTGATCTAGATAAATTTTGGCAATTTTTTAATGCTGAGATGAAAAAAAGCTACAGCACGGTTGCCT
+ ATAATGCTTGGTTTAAAAATACTAAACCAATTTCCTTTAATAAAAAGACAAAAGAAATGATAATCGCTGT
 
 GFF:
 
-NC_005362.1     .       gene    1       1365    .       +       .       ID=LJ_RS00005;Name=LJ_RS00005;
-
-NC_005362.1     .       mRNA    1       1365    .       +       .       ID=LJ_RS00005.t01;Parent=LJ_RS00005;
-
-NC_005362.1     .       exon    1       1365    .       +       .       ID=LJ_RS00005.t01-E1;Parent=LJ_RS00005.t01;
-
-NC_005362.1     .       CDS     1       1365    .       +       0       ID=LJ_RS00005.p01;Parent=LJ_RS00005.t01;
-
+ NC_005362.1     .       gene    1       1365    .       +       .       ID=LJ_RS00005;Name=LJ_RS00005;
+ NC_005362.1     .       mRNA    1       1365    .       +       .       ID=LJ_RS00005.t01;Parent=LJ_RS00005;
+ NC_005362.1     .       exon    1       1365    .       +       .       ID=LJ_RS00005.t01-E1;Parent=LJ_RS00005.t01;
+ NC_005362.1     .       CDS     1       1365    .       +       0       ID=LJ_RS00005.p01;Parent=LJ_RS00005.t01;
 
 =head1 CONTACT
 
-Joao Luis R. Cunha (2017)
-jaumlrc@gmail.com
-jaumlrc@broadinstitute.org
+ Joao Luis R. Cunha (2017)
+ jaumlrc@gmail.com
+ jaumlrc@broadinstitute.org
 
-Gustavo C. Cerqueira (2017)
-cerca11@gmail.com
-gustavo@broadinstitute.org
+ Gustavo C. Cerqueira (2017)
+ cerca11@gmail.com
+ gustavo@broadinstitute.org
 =cut
 
 my $fasta_in;    #Fasta file
@@ -161,8 +154,15 @@ my $usage = "ProphET_standalone.pl <fasta file> <gff file> <output_name> ";
 #########
 #Processing the input files and separating in one fasta per GFF
 
-# Get the scaffold IDS from the gff
-my @scaffold_ids = `sed '/^\\s*\$/d' $gff_in | awk '{print \$1}' | sort -u`;
+# Get the scaffold IDs from the gff
+
+
+my $gff_handler = GFFFile::new($gff_in);
+$gff_handler->read();
+my @scaffold_ids = $gff_handler->get_chrom_names();
+
+#################
+# Print scaffolds in the GFF
 
 print "\nProcessing the following scaffolds/chromosomes:\n";
 map { chomp $_ } @scaffold_ids;
@@ -186,11 +186,10 @@ foreach my $scaff_chrom (@scaffold_ids) {
 
 	my $curr_fasta = "$intermediate_files_dir/$scaff_chrom.fasta";
 	my $curr_gff   = "$intermediate_files_dir/$scaff_chrom.gff";
-	  ; #File with the initial and terminal coordinates of the genes with matches with our Phage db
-
+	
 
 	# Generate a GFF and FASTA per each scaffold/chromosome
-	`awk 'id == \$1 {print \$0}' id=$scaff_chrom $gff_in > $curr_gff`;
+	`grep -v "^#" $gff_in | awk 'id == \$1 {print \$0}' id=$scaff_chrom $gff_in > $curr_gff`;
 	`awk 'id == \$2 {print ">"\$2"\\n"\$1}' id=$scaff_chrom  $outdir/fasta.line > $curr_fasta`;
 
 	##########
@@ -223,7 +222,6 @@ foreach my $scaff_chrom (@scaffold_ids) {
 	print STDERR "Generating file containing protein and gene sequence...\n";
 `$UTILS_DIR/./gff2gene_protein_seq.pl $curr_gff $curr_fasta 11 $intermediate_files_dir/$scaff_chrom.trans $intermediate_files_dir/$scaff_chrom.cds $intermediate_files_dir/$scaff_chrom.prot`;
 
-	#getc();
 
 	# BLAST predicted protein against our phage db
 	if( $grid ){
@@ -262,7 +260,6 @@ if( $grid ){
 			foreach my $file ( @{ $output_files{$scaff_chrom} } ) {
 				print "Files to merge: $file\n" if $debug;
 			}
-			#getc();
 		}
 		merge_blast( \@{ $output_files{$scaff_chrom} }, $curr_blast );
 	}
@@ -381,7 +378,6 @@ sub compute_density_sliding_windows{
 		print WINDOW "$id_genoma\t$coord_ini\t$i\n";
 		close(WINDOW);
 
-		#getc();
 		`$BEDTOOLS_PATH intersect -a $blast_union -b $blast_window > $blast_intersect_entre_phage_janela`
 		  ; # Makes the intersect between the current window and our phage-matches coordinates
 
@@ -783,8 +779,6 @@ sub slice_out_phage_seq{
 			my $cmd = "$EMBOSS_EXTRACTSEQ_PATH -sequence $fasta -regions \"$start-$end\" -osdbname2 phage_$id:$start-$end $outdir/$scaff_chrom.phage_$id.fas";
 			#print STDERR "$cmd\n";			 
 			`$cmd`;
-			#getc();
-
 		}
 	}
 }
@@ -810,7 +804,6 @@ sub execute_blast_on_grid {
 	my $cmd = "$OBA_DIR/run_cmds_on_grid.py $outdir/blast.cmds";
 	print "$cmd\n" if $debug;
 
-	#getc();
 	my $output = `$cmd`;
 	print $output if $debug;
 
@@ -845,8 +838,6 @@ sub split_blast {
 
 	print STDERR "Number of files created: $num_files_created\n" if $debug;
 
-	#getc();
-
 	# Adjusting the value of created files
 	$$ref_num_of_parts = $num_files_created;
 
@@ -877,6 +868,4 @@ sub merge_blast {
 	my $cmd = "cat $all_files_to_combine > $output_file";
 	print $cmd . "\n" if $debug;
 	`$cmd`;
-
-	#getc();
 }
