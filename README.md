@@ -79,6 +79,10 @@ The execution should take ~ 5 minutes.
 
 Three putative prophages should be reported and its coordinates indicated in the file *test/phages_coords*:
 ```
+FORMAT:
+<scaffold>  <#prophage> <genomic.start.coord> <genomic.end.coord>
+
+CONTENT:
 NC_005362.1     1       327710  378140
 NC_005362.1     2       502194  519268
 NC_005362.1     3       1292553 1330556
