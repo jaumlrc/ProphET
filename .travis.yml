@@ -20,7 +20,7 @@ before_install:
 install:
   - cpanm GD
   - cpanm --verbose --force GD::SVG
-  - cpanm Bio::Graphics
+  - cpanm --verbose Bio::Graphics
   - cpanm LWP::Perl
   - cpanm LWP::Simple
   - cpanm XML::Simple
