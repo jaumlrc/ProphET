@@ -107,7 +107,7 @@ test/NC_005362.1.svg
 
 * If your GFF does not meet those specifications, a converter is provided as part of GFFLib (package installed during Prophet setup): 
 ```
-GFFLib/gff_reqwrite --input <GFF input> -output <GFF output> --add_missing_features
+GFFLib/gff_rewrite --input <GFF input> -output <GFF output> --add_missing_features
 ```
 
 * The GFF converter will not work for all cases. If you happen to encounter one of those, please issue a ticket reporting it.
