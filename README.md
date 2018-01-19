@@ -105,7 +105,10 @@ test/NC_005362.1.svg
 
 * Check if the GFF file that will be provided to ProphET has the format specified by [The Sequence Ontology Consortium](https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md)
 
-* If your GFF does not meet those specifications, a converter is provided as part of GFFLib (package installed during Prophet setup): GFFLib/gff_reqwrite --input <GFF input> -output <GFF output> --add_missing_features.
+* If your GFF does not meet those specifications, a converter is provided as part of GFFLib (package installed during Prophet setup): 
+```
+GFFLib/gff_reqwrite --input <GFF input> -output <GFF output> --add_missing_features
+```
 
 * The GFF converter will not work for all cases. If you happen to encounter one of those, please issue a ticket reporting it.
 
