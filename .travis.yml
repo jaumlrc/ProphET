@@ -40,7 +40,7 @@ script:
     #  - diff -r test/NC_005362.1.phage_1.fas expected_output_of_test/NC_005362.1.phage_1.fas | wc
     #  - diff -r test/NC_005362.1.phage_2.fas expected_output_of_test/NC_005362.1.phage_2.fas | wc  
     #diff -r test/phages_coords expected_output_of_test/phages_coords
-  - paste test/phages_coords expected_output_of_test/phages_coords | awk 'BEGIN{count = 0} $3 - $7 > 5000 || $7 - $3 > 5000  {count++} $4 - $8 > 5000 || $8 - $4 > 5000 {count++} END {print count}'
+  - paste test/phages_coords expected_output_of_test/phages_coords | awk 'BEGIN{count = 0} $3 - $7 > 5000 || $7 - $3 > 5000  {count++} $4 - $8 > 5000 || $8 - $4 > 5000 {count++} END {if( count != 0 ){ print count; exit 1 }}'
 
 after_success: true
 
