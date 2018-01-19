@@ -102,6 +102,10 @@ NC_005362.1     1       327710  378140
 NC_005362.1     2       1292553 1330556
 ```
 
+Small differences between the coordinates reported above and the coordinates obtained by your first test run of ProphET are expected.
+This is due to changes in the database of known prophage proteins, which is updated on each installation of ProphET. 
+
+
 The nucleotide sequence of each prophage can be found in:
 ```
 test/NC_005362.1.phage_1.fas

@@ -94,7 +94,9 @@ die "\nERROR: Unable to find Perl module GD\n\n" if( $output );
 
 #-----------------------------------------
 print "Downloading GFFLib ...\n";
-$output = system("svn --force export https://github.com/gustavo11/GFFLib/trunk UTILS.dir/GFFLib");
+#$output = system("svn --force export https://github.com/gustavo11/GFFLib/trunk UTILS.dir/GFFLib");
+$output = system("rm -rf UTILS.dir/GFFLib");
+$output = system("git clone https://github.com/gustavo11/GFFLib.git UTILS.dir/GFFLib");
 die "ERROR: Unable to download GFFLib from github\n\n" if( $output );
 
 
