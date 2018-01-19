@@ -1,7 +1,44 @@
 #!/usr/bin/env perl
 use strict;
 
+use Pod::Usage;
+use Getopt::Long;
 
+
+=head1 NAME
+
+INSTALL.pl
+
+=head1 SYNOPSIS
+
+INSTALL.pl 
+	[  --update_db_only ] | 
+
+=head1 OPTIONS
+
+B<--update_db_only> - Only update the database of known prophages B<(Optional)>.
+
+B<--help> - prints the usage information. B<(Optional)>
+
+=head1 DESCRIPTION
+
+=head1 CONTACT
+ Gustavo C. Cerqueira (2018)
+ cerca11@gmail.com
+ gcerqueira@pgdx.com
+=cut
+
+my ($update_db_only);
+my $help;
+
+GetOptions(	'update_db_only'	=> \$update_db_only,
+			'help'			=> \$help );
+		
+if( defined($help) ){
+   pod2usage(-verbose => 1 ,-exitval => 2);
+} 
+		
+goto DOWNLOADING_DB if defined( $update_db_only );
 
 #-----------------------------------------
 
@@ -31,7 +68,7 @@ chomp $bedtools;
 print "\tFound bedtools: $bedtools\n";
 
 #-----------------------------------------
-print "Saving program pahts in $config_file ...\n";
+print "Saving program paths in $config_file ...\n";
 print LOGS "Emboss_extractseq_path\t$emboss_extractseq\n";
 print LOGS "Blastall_path\t$blastall\n";
 print LOGS "Formatdb_path\t$formatdb\n";
@@ -73,17 +110,20 @@ if( !( -e $database_dir ) ){
 
 
 #-----------------------------------------
+
+DOWNLOADING_DB:
+
 print "Downloading Phage sequences ...\n";
 my $temp = "ProphET_install_temp.dir";
 
 if( !( -e $temp ) ){
 	mkdir($temp, 0755) or 
-	die "ERROR: Unable to create directory $temp\n";
+	die "ERROR: Unable to create directory $temp. If $temp already exists, please remove it.\n";
 }
 	
 chdir "$temp" or 
 	die "ERROR: Unable to enter directory $temp\n";
-	
+		
 $output = system("../UTILS.dir/extrair_ncbi_prophage_families.pl ../config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID");
 	
 die "ERROR: Unable to execute extrair_ncbi_prophage_families.pl\n\n" if( $output );
@@ -114,6 +154,6 @@ chdir "../$database_dir";
 
 #-----------------------------------------
 chdir "../";
-`rm -rf ProphET_instal_temp.dir`;
+`rm -rf ProphET_install_temp.dir`;
 print "Installation completed!\n";
 

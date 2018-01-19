@@ -44,6 +44,8 @@ Broad users don't need to install any of the of programs and libraries listed be
 
 * Perl module XML::Simple
 
+* Perl module Mozilla::CA
+
 
 
 
@@ -74,13 +76,23 @@ Those warnings refer to unexpected format for coordinates of tRNA features and t
 
 <h4>Testing installation:</h4>
 
-From ProphET's home directory execute the following command:
+From ProphET's home directory execute  either the following command (GFF file containing both coding genes and tRNAs):
 ```
 $ ./ProphET_standalone.pl --fasta test.fasta --gff_in test.gff --outdir test
 ```
+
+OR
+
+this command (separate GFF files containing each coding genes and tRNAs) :
+```
+$ ./ProphET_standalone.pl --fasta test.fasta --gff_in test.coding.gff --gff_trna test.noncoding.gff --outdir test2
+```
+
+
+
 The execution should take ~ 5 minutes.
 
-Three putative prophages should be reported and its coordinates indicated in the file *test/phages_coords*:
+Two putative prophages should be reported and its coordinates indicated in the file *test/phages_coords*:
 ```
 FORMAT:
 <scaffold>  <#prophage> <genomic.start.coord> <genomic.end.coord>

@@ -26,4 +26,5 @@ $ perl -MCPAN -e 'install GD::SVG'
 $ perl -MCPAN -e 'install Bio::Graphics'
 $ perl -MCPAN -e 'install LWP::Simple'
 $ perl -MCPAN -e 'install XML::Simple'
+$ perl -MCPAN -e 'install Mozilla::CA'
 ```

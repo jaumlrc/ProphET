@@ -31,6 +31,7 @@ $url =
 print "URL esearch 1: " . $url . "\n" if $debug;
 $xml = get($url);
 
+
 if ( $xml =~ /<Count>(\d+)<\/Count>/ ) {
 	$count = $1;
 }

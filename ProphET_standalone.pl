@@ -452,8 +452,8 @@ sub group_consecutive_windows {
 	{ #Loop to cluster consectutive windows with "phage content" higher than 5000pb, half of the window
 		my @splitted        = split( /[\t]/, $matches[$k] );
 		my $coverage        = $splitted[3];
-		my $ini_coordenates = $splitted[1];
-		my $fin_coordenates = $splitted[2];
+		my $ini_coordinates = $splitted[1];
+		my $end_coordinates = $splitted[2];
 		my $id              = $splitted[0];
 
 		if ( $coverage > 5000 ) {
@@ -467,23 +467,22 @@ sub group_consecutive_windows {
 			my @splitted3 =
 			  split( /[\t]/, $matches[ $k - 2 ] )
 			  ; #Get the initial, final coordinates and size of the clustered windows
-			my $fin_coordenates3 = $splitted3[2];
+			my $end_coordinates3 = $splitted3[2];
 			my $size =
-			  ( $fin_coordenates3 + 1 ) -
-			  $ini_coordenates;    #### Nao tenho usado o size para nada...
-			chomp $ini_coordenates;
-			chomp $fin_coordenates3;
+			  ( $end_coordinates3 + 1 ) -
+			  $ini_coordinates;    #### Nao tenho usado o size para nada...
+			chomp $ini_coordinates;
+			chomp $end_coordinates3;
 			chomp $id;
 			chomp $size;
 
-			print TEMP "$id\t$ini_coordenates\t$fin_coordenates3\n";
+			print TEMP "$id\t$ini_coordinates\t$end_coordinates3\n";
 		}
 	}
 	close(TEMP);
-
-	my @unnited_gustavo =
-`$UTILS_DIR/union.pl --in $blast_merged --seg_name 1 --seg_start 2 --seg_end 3 > $blast_merged_final `
-	  ;    #Merge regions raw-clusters with overlap in sequences
+	
+	#Merge regions raw-clusters with overlap in sequences
+	`$UTILS_DIR/union.pl --in $blast_merged --seg_name 1 --seg_start 2 --seg_end 3 > $blast_merged_final`;
 
 	return $blast_merged_final;
 }
@@ -541,9 +540,9 @@ sub trim_phages {
 
 
 ##########
-# Trimming raw phages borders by tRNAs or last gene with phage match
-#-Input: Raw phage coordinates prediction with at least 8 genes
-#-Trimns the phage border to the last gene with phage matches and then searches 3kb upstream and downstream for tRNA genes, extending accordingly
+# Trimming raw phages borders by tRNAs or last gene with a phage match
+#-Input: Phage coordinates
+#-Trims the phage border to the last gene with and then searches 3kb upstream and downstream for tRNA genes and extends the coordinates accordingly
 #-Output: Polished final phage prediction
 
 sub trim_phages_by_trna_or_coding_gene {
