@@ -18,6 +18,8 @@ my $tax_id = $ARGV[0];
 my $debug  = 0;
 my $DOWNLOAD_INCREMENTS = 500;
 
+open( LOG, ">$tax_id.ncbi_utils.log" ) or die "ERROR: Unable to write on file $tax_id.ncbi_utils.log\n" ;
+
 undef @genomeId;
 $query_key = $webenv = '';
 $tax_id =~ s/ /+/g;
@@ -78,6 +80,7 @@ foreach
 # Downloading genomes
 my $num_genomeId = scalar(@genomeId_nuccore);
 print "Number of genomes under TaxID $tax_id: " . $num_genomeId ."\n";
+print LOG "Number of genomes under TaxID $tax_id: " . $num_genomeId ."\n";
 if ( -e "$tax_id.gb" ){
 	`rm $tax_id.gb`;
 }
@@ -102,4 +105,6 @@ for ( my $ind = 0 ; $ind < $num_genomeId ; $ind += $DOWNLOAD_INCREMENTS ) {
 	close OUT;
 	sleep(10);
 }
+
+close(LOG);
 
