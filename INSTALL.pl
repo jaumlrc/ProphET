@@ -111,16 +111,16 @@ my $database_dir = "PhrophET_phage_proteins_database.dir";
 
 if( -e $database_dir ){	
 	my $datestring = localtime();
-	$datestring =~ s/ //g;
+	$datestring =~ s/ /_/g;
 	my $src = $database_dir;
 	my $dst = "$database_dir.$datestring.bak";
 	
     move( $src, $dst  )
         || die("ERROR: Unable to move directory $src to $dst!");
-}else{
-	mkdir($database_dir, 0755) or 
-	die "ERROR: Unable to create directory $database_dir\n";
 }
+
+mkdir($database_dir, 0755) or 
+die "ERROR: Unable to create directory $database_dir\n";
 
 
 #-----------------------------------------
@@ -178,7 +178,7 @@ chdir "../$database_dir";
 
 #-----------------------------------------
 chdir "../";
-#`rm -rf ProphET_install_temp.dir`;
+`rm -rf ProphET_install_temp.dir`;
 print "Installation completed!\n";
 
 
