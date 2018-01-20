@@ -3,7 +3,8 @@ use strict;
 
 use Pod::Usage;
 use Getopt::Long;
-
+use File::Path;
+use File::Copy;
 
 =head1 NAME
 
@@ -100,31 +101,47 @@ $output = system("git clone https://github.com/gustavo11/GFFLib.git UTILS.dir/GF
 die "ERROR: Unable to download GFFLib from github\n\n" if( $output );
 
 
+
+DOWNLOADING_DB:
+
 #-----------------------------------------
 print "Creating database directory...\n";
 
 my $database_dir = "PhrophET_phage_proteins_database.dir";
 
-if( !( -e $database_dir ) ){
+if( -e $database_dir ){	
+	my $datestring = localtime();
+	$datestring =~ s/ //g;
+	my $src = $database_dir;
+	my $dst = "$database_dir.$datestring.bak";
+	
+    move( $src, $dst  )
+        || die("ERROR: Unable to move directory $src to $dst!");
+}else{
 	mkdir($database_dir, 0755) or 
 	die "ERROR: Unable to create directory $database_dir\n";
 }
 
 
 #-----------------------------------------
-
-DOWNLOADING_DB:
-
-print "Downloading Phage sequences ...\n";
+print "Creating database temp directory ...\n";
 my $temp = "ProphET_install_temp.dir";
 
-if( !( -e $temp ) ){
-	mkdir($temp, 0755) or 
-	die "ERROR: Unable to create directory $temp. If $temp already exists, please remove it.\n";
+
+if( -e $temp ){
+	rmtree( $temp ) 
+		|| die("ERROR: Unable to remove directory $temp!");
 }
+
+mkdir($temp, 0755) or 
+die "ERROR: Unable to create directory $temp.\n";
 	
 chdir "$temp" or 
 	die "ERROR: Unable to enter directory $temp\n";
+
+#-----------------------------------------
+
+print "Downloading Phage sequences ...\n";
 		
 $output = system("../UTILS.dir/extrair_ncbi_prophage_families.pl ../config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID");
 	
@@ -136,16 +153,21 @@ die "ERROR: Unable to execute extrair_ncbi_prophage_families.pl\n\n" if( $output
 print "Formating sequences ...\n";
 `sed s'/[*]//g' Phage_proteins_pre_raw.db > Phage_proteins_pre_raw_without_stop.db `; # Remove asterisks representing STOP codons
 `perl ../UTILS.dir/script_remover_vazios.pl Phage_proteins_pre_raw_without_stop.db > Phage_proteins_raw.db`;
+`$formatdb -p T -i Phage_proteins_raw.db`;
 `../UTILS.dir/fasta2line Phage_proteins_raw.db > Phage_proteins_raw.line`;
 
 
 #-----------------------------------------
 print "Removing ABC-Transporters ...\n";
 `grep -wf ../config.dir/ABC_transporters_to_grep.txt Phage_proteins_raw.line | sort -u | awk '{print ">"\$2"\\n"\$1}' > ABC_transporters_seqs.fasta`;
-`$formatdb -p T -i Phage_proteins_raw.db`;
 `blastall -p blastp -d Phage_proteins_raw.db -i ABC_transporters_seqs.fasta -e 1e-5 -m8 -o ABC_trans_BLAST_matches`;
 `cat ABC_trans_BLAST_matches | awk '{print \$2}' | sort -u > IDs_Matches_com_ABC_transporters`;
-`grep -vf IDs_Matches_com_ABC_transporters Phage_proteins_raw.line | awk '{print ">"\$2"\\n"\$1}' > Phage_proteins_without_ABC-t.db`;
+
+if ( -z 	"IDs_Matches_com_ABC_transporters" ){
+	`awk '{print ">"\$2"\\n"\$1}' Phage_proteins_raw.line > Phage_proteins_without_ABC-t.db`
+}else{ 
+	`grep -vf IDs_Matches_com_ABC_transporters Phage_proteins_raw.line | awk '{print ">"\$2"\\n"\$1}' > Phage_proteins_without_ABC-t.db`;
+}
 
 #-----------------------------------------
 
@@ -156,6 +178,9 @@ chdir "../$database_dir";
 
 #-----------------------------------------
 chdir "../";
-`rm -rf ProphET_install_temp.dir`;
+#`rm -rf ProphET_install_temp.dir`;
 print "Installation completed!\n";
+
+
+exit(0);
 
