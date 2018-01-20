@@ -29,15 +29,19 @@ B<--help> - prints the usage information. B<(Optional)>
  gcerqueira@pgdx.com
 =cut
 
-my ($update_db_only);
+my ($update_db_only, $phage_families_file);
 my $help;
 
+my $default_phage_families_file = "../config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID";
+
 GetOptions(	'update_db_only'	=> \$update_db_only,
+			'phage_families_file=s' => \$phage_families_file,
 			'help'			=> \$help );
 		
 if( defined($help) ){
    pod2usage(-verbose => 1 ,-exitval => 2);
 } 
+
 		
 goto DOWNLOADING_DB if defined( $update_db_only );
 
@@ -142,12 +146,22 @@ chdir "$temp" or
 #-----------------------------------------
 
 print "Downloading Phage sequences ...\n";
-		
-$output = system("../UTILS.dir/extrair_ncbi_prophage_families.pl ../config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID");
-	
+
+my $eff_phage_families_file;
+if ( defined( $phage_families_file) ){
+	$eff_phage_families_file = $phage_families_file;
+}else{
+	$eff_phage_families_file = $default_phage_families_file;
+}
+
+if ( ! ( -e $eff_phage_families_file ) ){
+	die "ERROR: Phage families file $eff_phage_families_file does not exist!";
+}
+
+$output = system("../UTILS.dir/extrair_ncbi_prophage_families.pl $eff_phage_families_file");
 die "ERROR: Unable to execute extrair_ncbi_prophage_families.pl\n\n" if( $output );
 
-`perl ../UTILS.dir/obtain_prot_with_annot_seq.pl ../config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID > Phage_proteins_pre_raw.db`;
+`perl ../UTILS.dir/obtain_prot_with_annot_seq.pl $eff_phage_families_file > Phage_proteins_pre_raw.db`;
 
 #-----------------------------------------
 print "Formating sequences ...\n";
@@ -170,11 +184,12 @@ if ( -z 	"IDs_Matches_com_ABC_transporters" ){
 }
 
 #-----------------------------------------
-
-
+print "Finalizing phage database...\n";
 `cp Phage_proteins_without_ABC-t.db ../$database_dir`;
+`cp phage_db.summary.stats ../$database_dir`;
 chdir "../$database_dir";
 `formatdb -p T -i Phage_proteins_without_ABC-t.db`;
+
 
 #-----------------------------------------
 chdir "../";

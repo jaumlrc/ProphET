@@ -54,5 +54,6 @@ echo "Removing * representing STOP codons ..."
 
 # Number of CDS and mat_peptides
 num_CDS_mat=`grep -c ">" all.prot.fas`
-echo "Number of features: $num_CDS_mat"
+echo "Number of coding features under TaxID $txid : $num_CDS_mat"
+echo "Number of coding features under TaxID $txid : $num_CDS_mat" >> $txid.prot.log
 
