@@ -322,8 +322,12 @@ foreach my $scaff_chrom (@scaffold_ids) {
 	render_phage( $scaff_chrom, $ref_arr_phages_found, $curr_fasta, $curr_gff, $phages_curr_scaffold, $curr_blast_union, $outdir );
 	
 	slice_out_phage_seq( $scaff_chrom, $ref_arr_phages_found, $curr_fasta, $outdir ); 
-
+	
 }
+
+# Copy phage_db stats to results dir
+`cp $PROPHET_DB_DIR/phage_db.summary.stats $outdir/phage_db.summary.stats`;
+
 
 exit(0);
 
