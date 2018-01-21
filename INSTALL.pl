@@ -32,7 +32,9 @@ B<--help> - prints the usage information. B<(Optional)>
 my ($update_db_only, $phage_families_file);
 my $help;
 
-my $default_phage_families_file = "../config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID";
+my $config_dir = "../config.dir";
+my $default_phage_families_file = "Prophages_names_sem_Claviviridae_Guttaviridae-TxID";
+
 
 GetOptions(	'update_db_only'	=> \$update_db_only,
 			'phage_families_file=s' => \$phage_families_file,
@@ -149,9 +151,9 @@ print "Downloading Phage sequences ...\n";
 
 my $eff_phage_families_file;
 if ( defined( $phage_families_file) ){
-	$eff_phage_families_file = $phage_families_file;
+	$eff_phage_families_file = $config_dir . "/" . $phage_families_file;
 }else{
-	$eff_phage_families_file = $default_phage_families_file;
+	$eff_phage_families_file = $config_dir . "/" . $default_phage_families_file;
 }
 
 if ( ! ( -e $eff_phage_families_file ) ){
@@ -178,7 +180,8 @@ print "Removing ABC-Transporters ...\n";
 `cat ABC_trans_BLAST_matches | awk '{print \$2}' | sort -u > IDs_Matches_com_ABC_transporters`;
 
 if ( -z 	"IDs_Matches_com_ABC_transporters" ){
-	`awk '{print ">"\$2"\\n"\$1}' Phage_proteins_raw.line > Phage_proteins_without_ABC-t.db`
+	#`awk '{print ">"\$2"\\n"\$1}' Phage_proteins_raw.line > Phage_proteins_without_ABC-t.db`
+	die "ERROR: IDs_Matches_com_ABC_transporters is empty!!\n";
 }else{ 
 	`grep -vf IDs_Matches_com_ABC_transporters Phage_proteins_raw.line | awk '{print ">"\$2"\\n"\$1}' > Phage_proteins_without_ABC-t.db`;
 }
