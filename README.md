@@ -52,7 +52,7 @@ Broad users don't need to install any of the of programs and libraries listed be
 ------
 <h4>ProphET installation:</h4>
 
-To either install ProphET or to update ProphET bacteriophage database please execute the following command from ProphET's home directory:
+To install ProphET and download bacteriophage database please execute the following command from ProphET's home directory:
 ```
 $ ./INSTALL.pl
 ```
@@ -67,6 +67,7 @@ Warning: bad /anticodon value '(pos:complement(13054..13056),aa:Met,seq:cat)'
 Warning: NC_022920: Bad value '(pos:complement(13054..13056),aa:Met,seq:cat)' for tag '/anticodon'
 ```
 Those warnings refer to unexpected format for coordinates of tRNA features and they won't affect the execution.
+
 
 
 **If the script fails and reports missing Perl modules/libraries, please folow the instrucions on file  [README_INSTALLING_PERL_MODULES.md](README_INSTALLING_PERL_MODULES.md) on how to install those.**
@@ -116,6 +117,30 @@ The program also renders a simple diagram depicting all coding genes in the bact
 ```
 test/NC_005362.1.svg
 ```
+
+------
+
+<h4>Updating phage database:</h4>
+
+To update the bacteriophage database with the latest sequences deposited at Genbank, please execute the following command from ProphET's home directory:
+
+```
+$ ./INSTALL.pl --update_db_only
+```
+
+The current database will be backed up as 
+```
+PhrophET_phage_proteins_database.dir.<current date and time>.bak
+```
+
+and an updated database will be saved at:
+```
+PhrophET_phage_proteins_database.dir
+```
+
+Current and backed up instances of DB include the file ```phage_db.summary.stats``` reporting the download date and a summary of the database content. This file can also be found in the results directory of each ProphET execution.
+
+
 ------
 <h4>Before running ProphET in your favorite bacterial genome</h4>
 

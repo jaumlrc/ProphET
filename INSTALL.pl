@@ -193,7 +193,7 @@ chdir "../$database_dir";
 
 #-----------------------------------------
 chdir "../";
-`rm -rf ProphET_install_temp.dir`;
+#`rm -rf ProphET_install_temp.dir`;
 print "Installation completed!\n";
 
 

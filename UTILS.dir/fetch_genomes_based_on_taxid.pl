@@ -38,7 +38,7 @@ if ( $xml =~ /<Count>(\d+)<\/Count>/ ) {
 	$count = $1;
 }
 
-print "Number of genomes: $count\n" if $debug;
+print "Number of records in Genome database: $count\n";
 
 if ( $count > 20 ) {
 	$url =
@@ -57,6 +57,7 @@ while ( $xml =~ /<Id>(\d+?)<\/Id>/gs ) {
 
 #-----------------------------------------------------------------------
 # Converting genome Ids to nuccore
+
 my $num_genomeId = scalar(@genomeId);
 for ( my $ind = 0 ; $ind < $num_genomeId ; $ind += $DOWNLOAD_INCREMENTS ) {
 	my $last = $ind + ( $DOWNLOAD_INCREMENTS - 1 );
@@ -89,16 +90,21 @@ for ( my $ind = 0 ; $ind < $num_genomeId ; $ind += $DOWNLOAD_INCREMENTS ) {
 	}
 
 }
+getc() if $debug;
 
 #-----------------------------------------------------------------------
 
 # Downloading genomes
 $num_genomeId = scalar(@genomeId_nuccore);
+
+
 print "Number of genomes under TaxID $tax_id: " . $num_genomeId . "\n";
 print LOG "Number of genomes under TaxID $tax_id: " . $num_genomeId . "\n";
 if ( -e "$tax_id.gb" ) {
 	`rm $tax_id.gb`;
 }
+
+getc() if $debug;
 
 for ( my $ind = 0 ; $ind < $num_genomeId ; $ind += $DOWNLOAD_INCREMENTS ) {
 	my $last = $ind + ( $DOWNLOAD_INCREMENTS - 1 );
@@ -122,4 +128,6 @@ for ( my $ind = 0 ; $ind < $num_genomeId ; $ind += $DOWNLOAD_INCREMENTS ) {
 }
 
 close(LOG);
+
+getc() if $debug;
 
