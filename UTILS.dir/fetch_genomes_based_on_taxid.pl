@@ -14,11 +14,12 @@ my $base = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
 #my $limit = 'srcdb+refseq[prop]+AND+gene+in+chromosome[prop])';
 my $limit = 'srcdb+refseq[prop]';
 
-my $tax_id = $ARGV[0];
-my $debug  = 0;
+my $tax_id              = $ARGV[0];
+my $debug               = 0;
 my $DOWNLOAD_INCREMENTS = 500;
 
-open( LOG, ">$tax_id.ncbi_utils.log" ) or die "ERROR: Unable to write on file $tax_id.ncbi_utils.log\n" ;
+open( LOG, ">$tax_id.ncbi_utils.log" )
+  or die "ERROR: Unable to write on file $tax_id.ncbi_utils.log\n";
 
 undef @genomeId;
 $query_key = $webenv = '';
@@ -32,7 +33,6 @@ $url =
   . "[Organism:exp]&usehistory=y";
 print "URL esearch 1: " . $url . "\n" if $debug;
 $xml = get($url);
-
 
 if ( $xml =~ /<Count>(\d+)<\/Count>/ ) {
 	$count = $1;
@@ -54,45 +54,60 @@ while ( $xml =~ /<Id>(\d+?)<\/Id>/gs ) {
 	print "$curr_genome_id\n" if $debug;
 	push( @genomeId, $curr_genome_id );
 }
-$ids = join( ',', @genomeId );
 
-# ELink
-$url = $base
-  . "elink.fcgi?dbfrom=genome&db=nuccore&id=$ids&term=$limit&usehistory=y";
-print "URL elink: $url\n" if $debug;
-$xml = get($url);
+#-----------------------------------------------------------------------
+# Converting genome Ids to nuccore
+my $num_genomeId = scalar(@genomeId);
+for ( my $ind = 0 ; $ind < $num_genomeId ; $ind += $DOWNLOAD_INCREMENTS ) {
+	my $last = $ind + ( $DOWNLOAD_INCREMENTS - 1 );
+	$last = $num_genomeId - 1 if $last >= $num_genomeId;
 
-# create object
-my $xmlIn = new XML::Simple( ForceArray => 1 );
+	print "Converting genomeids "
+	  . ( $ind + 1 ) . " to "
+	  . ( $last + 1 ) . "...\n";
 
-# read XML file
-my $xmlContent = $xmlIn->XMLin($xml);
+	my $ids = join( ',', @genomeId[ $ind .. $last ] );
 
-foreach
-  my $value ( @{ $xmlContent->{'LinkSet'}->[0]->{'LinkSetDb'}->[0]->{'Link'} } )
-{
-	my $curr_id = $value->{'Id'}->[0];
-	push( @genomeId_nuccore, $curr_id );
-	print $curr_id . "\n" if $debug;
+	# ELink
+	$url = $base
+	  . "elink.fcgi?dbfrom=genome&db=nuccore&id=$ids&term=$limit&usehistory=y";
+	print "URL elink: $url\n" if $debug;
+	$xml = get($url);
+
+	# create object
+	my $xmlIn = new XML::Simple( ForceArray => 1 );
+
+	# read XML file
+	my $xmlContent = $xmlIn->XMLin($xml);
+
+	foreach my $value (
+		@{ $xmlContent->{'LinkSet'}->[0]->{'LinkSetDb'}->[0]->{'Link'} } )
+	{
+		my $curr_id = $value->{'Id'}->[0];
+		push( @genomeId_nuccore, $curr_id );
+		print $curr_id . "\n" if $debug;
+	}
+
 }
 
+#-----------------------------------------------------------------------
 
 # Downloading genomes
-my $num_genomeId = scalar(@genomeId_nuccore);
-print "Number of genomes under TaxID $tax_id: " . $num_genomeId ."\n";
-print LOG "Number of genomes under TaxID $tax_id: " . $num_genomeId ."\n";
-if ( -e "$tax_id.gb" ){
+$num_genomeId = scalar(@genomeId_nuccore);
+print "Number of genomes under TaxID $tax_id: " . $num_genomeId . "\n";
+print LOG "Number of genomes under TaxID $tax_id: " . $num_genomeId . "\n";
+if ( -e "$tax_id.gb" ) {
 	`rm $tax_id.gb`;
 }
 
 for ( my $ind = 0 ; $ind < $num_genomeId ; $ind += $DOWNLOAD_INCREMENTS ) {
-	my $last = $ind + ($DOWNLOAD_INCREMENTS - 1);
+	my $last = $ind + ( $DOWNLOAD_INCREMENTS - 1 );
 	$last = $num_genomeId - 1 if $last >= $num_genomeId;
-	
+
 	print "Downloading genomes "
 	  . ( $ind + 1 ) . " to "
 	  . ( $last + 1 ) . "...\n";
-	  
+
 	my $ids = join( ',', @genomeId_nuccore[ $ind .. $last ] );
 
 	# EFetch
