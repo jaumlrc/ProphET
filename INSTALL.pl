@@ -169,19 +169,34 @@ die "ERROR: Unable to execute extrair_ncbi_prophage_families.pl\n\n" if( $output
 print "Formating sequences ...\n";
 `sed s'/[*]//g' Phage_proteins_pre_raw.db > Phage_proteins_pre_raw_without_stop.db `; # Remove asterisks representing STOP codons
 `perl ../UTILS.dir/script_remover_vazios.pl Phage_proteins_pre_raw_without_stop.db > Phage_proteins_raw.db`;
-`$formatdb -p T -i Phage_proteins_raw.db`;
+`formatdb -p T -i Phage_proteins_raw.db`;
+if ($? == -1) {
+    die "ERROR: Unable to execute formatdb!\n";
+}
+
 `../UTILS.dir/fasta2line Phage_proteins_raw.db > Phage_proteins_raw.line`;
 
 
 #-----------------------------------------
 print "Removing ABC-Transporters ...\n";
+
+# Retrieve ABC transporter from database based on their annotation
 `grep -wf ../config.dir/ABC_transporters_to_grep.txt Phage_proteins_raw.line | sort -u | awk '{print ">"\$2"\\n"\$1}' > ABC_transporters_seqs.fasta`;
+
+# BLAST those ABC transporters against the rest of the database
 `blastall -p blastp -d Phage_proteins_raw.db -i ABC_transporters_seqs.fasta -e 1e-5 -m8 -o ABC_trans_BLAST_matches`;
+if ($? == -1) {
+    die "ERROR: Unable to execute blastall!\n";
+}
+
+# Retrieve the ID of matches against ABC transporters 
 `cat ABC_trans_BLAST_matches | awk '{print \$2}' | sort -u > IDs_Matches_com_ABC_transporters`;
 
-if ( -z 	"IDs_Matches_com_ABC_transporters" ){
-	#`awk '{print ">"\$2"\\n"\$1}' Phage_proteins_raw.line > Phage_proteins_without_ABC-t.db`
-	die "ERROR: IDs_Matches_com_ABC_transporters is empty!!\n";
+# Remove those matches from the database 
+if ( -z 	"IDs_Matches_com_ABC_transporters" && -z "ABC_transporters_seqs.fasta"){
+	`awk '{print ">"\$2"\\n"\$1}' Phage_proteins_raw.line > Phage_proteins_without_ABC-t.db`
+}elsif( -z 	"IDs_Matches_com_ABC_transporters" ){
+	die "ERROR: Incomplete or corrupted BLAST search for ABC transporters!!\n";
 }else{ 
 	`grep -vf IDs_Matches_com_ABC_transporters Phage_proteins_raw.line | awk '{print ">"\$2"\\n"\$1}' > Phage_proteins_without_ABC-t.db`;
 }
