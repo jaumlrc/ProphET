@@ -138,7 +138,7 @@ and an updated database will be saved at:
 PhrophET_phage_proteins_database.dir
 ```
 
-All instances of the prophage DB (current and backups) include a file  reporting the download date and stats. about its content: `phage_db.summary.stats`. As part of ProphET execution, this file is copied to results directory to enable auditing and reproducibility of results.
+All instances of the prophage DB (current and backups) include a file  reporting the download date and stats.: `phage_db.summary.stats`. This file is copied to the results directory of every ProphET execution to enable auditing and reproducibility of results.
 
 
 ------
