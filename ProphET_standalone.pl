@@ -17,7 +17,7 @@ ProphET is a user friendly algorithm to identify prophages in bacterial genomes.
 
 =head1 SYNOPSIS
 
-usage: ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir <string> [--grid] [--gff_trna <file> ] [--help]
+usage: ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir <string> [--grid] [--help]
 
 
 =head1 OPTIONS
@@ -25,8 +25,6 @@ usage: ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir <string>
 B<--fasta_in> - Bacterial genome Fasta file
 
 B<--gff_in> - Bacterial GFF file
-
-B<--gff_trna> - Optional parameter, in case the tRNAs are reported in a separate GFF please provide it here <(Optional)>
 
 B<--outdir> - output directory
 

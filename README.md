@@ -82,15 +82,6 @@ From ProphET's home directory execute  either the following command (GFF file co
 $ ./ProphET_standalone.pl --fasta test.fasta --gff_in test.gff --outdir test
 ```
 
-OR
-
-this command (separate GFF files containing each coding genes and tRNAs) :
-```
-$ ./ProphET_standalone.pl --fasta test.fasta --gff_in test.coding.gff --gff_trna test.noncoding.gff --outdir test2
-```
-
-
-
 The execution should take ~ 5 minutes.
 
 Two putative prophages should be reported and its coordinates indicated in the file *test/phages_coords*:
