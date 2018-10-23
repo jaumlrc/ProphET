@@ -6,11 +6,12 @@ use Pod::Usage;
 use Getopt::Long;
 use FindBin;
 
-use lib "$FindBin::Bin/UTILS.dir/GFFLib"; 
+use lib "$FindBin::Bin/UTILS.dir/GFFLib";
 
 use GFFFile;
 
-
+use Cwd 'abs_path';
+use Cwd 'getcwd';
 =head1 NAME
 
 ProphET is a user friendly algorithm to identify prophages in bacterial genomes.
@@ -144,7 +145,7 @@ my $BEDTOOLS_PATH =
 
 
 # Database with prophage proteins
-my $PROPHET_DB_DIR = "$FindBin::Bin/PhrophET_phage_proteins_database.dir";
+my $PROPHET_DB_DIR = "$FindBin::Bin/ProphET_phage_proteins_database.dir";
 
 my $usage = "ProphET_standalone.pl <fasta file> <gff file> <output_name> ";
 
@@ -154,7 +155,18 @@ my $usage = "ProphET_standalone.pl <fasta file> <gff file> <output_name> ";
 
 # Get the scaffold IDs from the gff
 
-
+my $thisdir = getcwd;
+my $tmp_gff = abs_path($outdir) . "/original.gff";
+my $new_gff = abs_path($outdir) . "/new.gff";
+$gff_in = abs_path($gff_in);
+print "$thisdir\n";
+# copy the file
+`cp $gff_in $tmp_gff`;
+chdir "$thisdir/UTILS.dir/GFFLib" or
+	die "ERROR: Unable to enter directory $thisdir/UTILS.dir/GFFLib\n";
+`./gff_rewrite.pl --input $tmp_gff --output $new_gff --add_missing_features`;
+chdir "$thisdir" or die "can't change back to original directory";
+$gff_in = "$new_gff";
 my $gff_handler = GFFFile::new($gff_in);
 $gff_handler->read();
 my @scaffold_ids = $gff_handler->get_chrom_names();
@@ -184,7 +196,7 @@ foreach my $scaff_chrom (@scaffold_ids) {
 
 	my $curr_fasta = "$intermediate_files_dir/$scaff_chrom.fasta";
 	my $curr_gff   = "$intermediate_files_dir/$scaff_chrom.gff";
-	
+
 
 	# Generate a GFF and FASTA per each scaffold/chromosome
 	`grep -v "^#" $gff_in | awk 'id == \$1 {print \$0}' id=$scaff_chrom $gff_in > $curr_gff`;
@@ -196,14 +208,14 @@ foreach my $scaff_chrom (@scaffold_ids) {
 
 	my $num_seqs = `grep -c '>' $curr_fasta | awk '{print \$1}'`;
 	die "ERROR: The file $curr_fasta has either more than one sequence or no sequence." if ( $num_seqs != 1 );
-		
+
 
 	my $gff_ids_count =
 	  `awk '{print \$1}' $curr_gff | sort -u | wc | awk '{print \$1}'`;
 	my $gff_ids_ids = `awk '{print \$1}' $curr_gff | sort -u`;
 	if ( $gff_ids_count > 1 ) {
 		die
-			"ERROR: The input gff file has more than one genome id:\n" . 
+			"ERROR: The input gff file has more than one genome id:\n" .
 			"$gff_ids_ids Check if you are not submitting a file with plasmids as well as the genome file\n";
 	}
 
@@ -214,8 +226,8 @@ foreach my $scaff_chrom (@scaffold_ids) {
 		die
 			"ERROR: The FASTA headers do not match the GFF sequence id:\n FASTA:$fasta_only_id GFF_SEQ_ID:$gff_only_id";
 	}
-	
-	
+
+
 	#Script to generate the proteins fasta based on the genome fasta and gff
 	print STDERR "Generating file containing protein and gene sequence...\n";
 `$UTILS_DIR/./gff2gene_protein_seq.pl $curr_gff $curr_fasta 11 $intermediate_files_dir/$scaff_chrom.trans $intermediate_files_dir/$scaff_chrom.cds $intermediate_files_dir/$scaff_chrom.prot`;
@@ -225,7 +237,7 @@ foreach my $scaff_chrom (@scaffold_ids) {
 	if( $grid ){
 		split_blast(
 			$scaff_chrom,
-"$BLAST_PATH -p blastp -d $PROPHET_DB_DIR/Phage_proteins_without_ABC-t.db -e 1e-5 -m8 -a8",
+"$BLAST_PATH blastall -p blastp -d $PROPHET_DB_DIR/Phage_proteins_without_ABC-t.db -e 1e-5 -m8 -a4 --path \$\(dirname \`which blastp\`\)",
 			"$intermediate_files_dir/$scaff_chrom.prot",
 			\$number_of_jobs,
 			\@cmds,
@@ -237,18 +249,20 @@ foreach my $scaff_chrom (@scaffold_ids) {
 	# BLAST locally
 	}else{
 		print STDERR
-		  "BLASting protein sequences against phage proteins db...\n";
-		`$BLAST_PATH -p blastp -d $PROPHET_DB_DIR/Phage_proteins_without_ABC-t.db -i $intermediate_files_dir/$scaff_chrom.prot -e 1e-5 -m8 -a8 -o $intermediate_files_dir/$scaff_chrom.blast`;	
+		    "BLASting protein sequences against phage proteins db...\n";
+		# chdir "../";
+
+		`$BLAST_PATH blastall -p blastp -d $PROPHET_DB_DIR\/Phage_proteins_without_ABC-t.db -i $intermediate_files_dir/$scaff_chrom.prot -e 1e-5 -m8 -a4 -o $intermediate_files_dir/$scaff_chrom.blast --path \$\(dirname \`which blastp\`\)`;
 	}
 }
 
 `rm $outdir/fasta.line`;
 
 if( $grid ){
-	
+
 	# Issue BLAST jobs in the grid and wait...
 	execute_blast_on_grid( $outdir );
-	
+
 	# Merge BLAST results
 	foreach my $scaff_chrom (@scaffold_ids){
 		my $intermediate_files_dir = "$outdir/$scaff_chrom";
@@ -261,12 +275,12 @@ if( $grid ){
 		}
 		merge_blast( \@{ $output_files{$scaff_chrom} }, $curr_blast );
 	}
-}	
+}
 
 foreach my $scaff_chrom (@scaffold_ids) {
 
 	my $intermediate_files_dir = "$outdir/$scaff_chrom";
-	
+
 	my $curr_fasta = "$intermediate_files_dir/$scaff_chrom.fasta";
 	my $curr_gff   = "$intermediate_files_dir/$scaff_chrom.gff";
 	my $curr_blast = "$intermediate_files_dir/$scaff_chrom.blast";
@@ -275,8 +289,8 @@ foreach my $scaff_chrom (@scaffold_ids) {
 	my $curr_blast_matches_coords = "$intermediate_files_dir/$scaff_chrom.matches-coords";
 	my $curr_blast_union = "$intermediate_files_dir/$scaff_chrom.matches-coords-union";
 	my $tRNAfile = "$intermediate_files_dir/$scaff_chrom.tRNA_file_coordinates";
-	
-		
+
+
 	# Skip scaffold if BLAST result is empty
 	next if ( -z "$curr_blast" );
 
@@ -306,21 +320,21 @@ foreach my $scaff_chrom (@scaffold_ids) {
 	}
 	`awk '\$3=="tRNA"{print \$0}' $gff_input_selector | awk '{print \$1"\t"\$4"\t"\$5}' > $tRNAfile`;
 
-	
+
 
 	my $blast_window_output = compute_density_sliding_windows( $scaff_chrom, $curr_blast, $curr_blast_union, $intermediate_files_dir );
 
 	my $blast_merged_final = group_consecutive_windows( $scaff_chrom, $blast_window_output, $intermediate_files_dir );
-	
+
 	my $blast_merged_united = trim_phages( $scaff_chrom, $curr_blast_union, $blast_merged_final, $intermediate_files_dir );
-	
-	my ($ref_arr_phages_found , $phages_curr_scaffold ) = 
+
+	my ($ref_arr_phages_found , $phages_curr_scaffold ) =
 		trim_phages_by_trna_or_coding_gene( $scaff_chrom, $curr_blast_union, $blast_merged_united, $tRNAfile, $intermediate_files_dir, $outdir );
-	
+
 	render_phage( $scaff_chrom, $ref_arr_phages_found, $curr_fasta, $curr_gff, $phages_curr_scaffold, $curr_blast_union, $outdir );
-	
-	slice_out_phage_seq( $scaff_chrom, $ref_arr_phages_found, $curr_fasta, $outdir ); 
-	
+
+	slice_out_phage_seq( $scaff_chrom, $ref_arr_phages_found, $curr_fasta, $outdir );
+
 }
 
 # Copy phage_db stats to results dir
@@ -335,19 +349,19 @@ exit(0);
 #-Sliding window and intersect with phage matches - Windows of 10,000 with 1,000 increment
 #-Estimates the Density of nucleotides with phage matches in a given window
 #-Output: Phage matches for each window
-	
+
 sub compute_density_sliding_windows{
-	
+
 	print STDERR "Computing density of prophage genes for each sliding window...\n";
-	
+
 	my ( $scaff_chrom, $blast, $blast_union, $intermediate_files_dir  ) = @_;
-	
+
 	my $blast_window_output = "$intermediate_files_dir/$scaff_chrom.blast.window.output";
 	my $blast_log_matches = "$intermediate_files_dir/$scaff_chrom.blast.log.matches";
 	my $blast_window = "$intermediate_files_dir/$scaff_chrom.blast.window";
 	my $blast_intersect_entre_phage_janela = "$intermediate_files_dir/$scaff_chrom.entre.phage.janela";
-	
-	
+
+
 	open( BLAST, "$blast_union" )
 	  or die "Unable to open file $blast_union!\n";
 	my @genes = <BLAST>;
@@ -356,7 +370,7 @@ sub compute_density_sliding_windows{
 	open( RESULTS, ">$blast_window_output" )
 	  or die "Unable to write on file $blast_window_output!\n";
 	;    #File with the number of bases with phage matches in a given window
-	
+
 	open( LOG, ">$blast_log_matches" )
 	  or die "Unable to write on file $blast_log_matches!\n";
 	;    #Log-file with the coordinates of matches in a given window
@@ -419,7 +433,7 @@ sub compute_density_sliding_windows{
 	}
 
 	close(LOG);
-	close(RESULTS);	
+	close(RESULTS);
 	return $blast_window_output;
 }
 
@@ -433,10 +447,10 @@ sub compute_density_sliding_windows{
 #-Output - Raw phage coordinates prediction
 
 sub group_consecutive_windows {
-	
+
 	print STDERR "Grouping consecuting windows containing the putative prophage...\n";
-	
-	
+
+
 	my ( $scaff_chrom, $blast_window_output, $intermediate_files_dir) = @_;
 
 	my $blast_merged = "$intermediate_files_dir/$scaff_chrom.blast.merged";
@@ -482,7 +496,7 @@ sub group_consecutive_windows {
 		}
 	}
 	close(TEMP);
-	
+
 	#Merge regions raw-clusters with overlap in sequences
 	`$UTILS_DIR/union.pl --in $blast_merged --seg_name 1 --seg_start 2 --seg_end 3 > $blast_merged_final`;
 
@@ -496,14 +510,14 @@ sub group_consecutive_windows {
 #-Output: raw phages that have at least 8 genes with phage matches
 
 sub trim_phages {
-	
+
 	print STDERR "Trimming prophage...\n";
-	
+
 	my ($scaff_chrom, $blast_union, $blast_merged_final, $intermediate_files_dir ) = @_;
-	
+
 	my $blast_merged_united = "$intermediate_files_dir/$scaff_chrom.blast.merged.united";
 
-	
+
 	open( MERGED, "$blast_merged_final" ) or die "couldnt open $blast_merged_final\n";
 	my @merged = <MERGED>;
 	close(MERGED);
@@ -536,7 +550,7 @@ sub trim_phages {
 		}
 	}
 	close(TEMP2);
-	
+
 	return $blast_merged_united;
 }
 
@@ -548,12 +562,12 @@ sub trim_phages {
 #-Output: Polished final phage prediction
 
 sub trim_phages_by_trna_or_coding_gene {
-	
+
 	print STDERR "Trimming prophage based on tRNA or last gene in the last and first window ...\n";
-	
+
 
 	my ($scaff_chrom, $blast_union, $blast_merged_united, $tRNAfile, $intermediate_files_dir, $outdir ) = @_;
-	
+
 	my $trna_log = "$intermediate_files_dir/$scaff_chrom.trna.log";
 	my $phages_coord = "$outdir/phages_coords";
 	my $phages_curr_scaffold = "$intermediate_files_dir/$scaff_chrom.phages_coords";
@@ -563,7 +577,7 @@ sub trim_phages_by_trna_or_coding_gene {
 	  or die "Unable to open file $blast_merged_united!\n";
 	my @phages = <PHAGES>;
 	close(PHAGES);
-	map( chomp, @phages); 
+	map( chomp, @phages);
 
 	open( MATCHES, "$blast_union" )
 	  or die "Unable to open file $blast_union!\n";
@@ -590,7 +604,7 @@ sub trim_phages_by_trna_or_coding_gene {
 	for ( my $n = 0 ; $n <= $#phages ; $n++ )
 	{ #Searches for the last gene with phage match in the beggining and end of the raw phage
 		my @phage_coords  = split( /[\t]/, $phages[$n] );
-		
+
 		my $phage_scaff_chrom = $phage_coords[0];
 		my $phage_id      = $n + 1;
 		my $phage_initial = $phage_coords[1];
@@ -732,23 +746,23 @@ sub trim_phages_by_trna_or_coding_gene {
 
 	close(PHAGESFINAL);
 	close(PHAGES_CURR_SCAFFOLD);
-	
+
 	return (\@phages_found, $phages_curr_scaffold);
 }
 
 #########
-# Generate the image file 
+# Generate the image file
 #-Input: Final phage prediction, genome fasta, gff file
 #-Generates the image output file
 #-Output: Image output file
 
 sub render_phage {
-	
+
 	print STDERR "Rendering graph depicting prophage genes ...\n";
-	
-	
-	my ( $scaff_chrom, $ref_arr_phages_found, $fasta, $gff, $phages_coords, $blast_union, $intermediate_files_dir ) = @_; 
-	
+
+
+	my ( $scaff_chrom, $ref_arr_phages_found, $fasta, $gff, $phages_coords, $blast_union, $intermediate_files_dir ) = @_;
+
 	my $gff_ultraformated = "$intermediate_files_dir/$scaff_chrom.gff_ultraformated";
 	my $svg = "$intermediate_files_dir/$scaff_chrom.svg";
 
@@ -768,8 +782,8 @@ sub render_phage {
 
 sub slice_out_phage_seq{
 
-	my ( $scaff_chrom, $ref_arr_phages_found, $fasta, $outdir ) = @_; 
-	
+	my ( $scaff_chrom, $ref_arr_phages_found, $fasta, $outdir ) = @_;
+
 	if ( scalar(@{$ref_arr_phages_found}) != 0 ) {
 		foreach my $curr_phage (@{$ref_arr_phages_found}) {
 			my $scaff_chrom = $curr_phage->{scaff_chrom};
@@ -778,7 +792,7 @@ sub slice_out_phage_seq{
 			my $end = $curr_phage->{end};
 
 			my $cmd = "$EMBOSS_EXTRACTSEQ_PATH -sequence $fasta -regions \"$start-$end\" -osdbname2 phage_$id:$start-$end $outdir/$scaff_chrom.phage_$id.fas";
-			#print STDERR "$cmd\n";			 
+			#print STDERR "$cmd\n";
 			`$cmd`;
 		}
 	}
