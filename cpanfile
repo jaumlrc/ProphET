@@ -1,3 +1,4 @@
+requires 'Module::CPANfile';
 requires 'Bio::Perl';
 requires 'SVG';
 requires 'GD';
