@@ -60,7 +60,7 @@ chomp $emboss_extractseq;
 print "\tFound EMBOSS extractseq: $emboss_extractseq\n";
 
 my $blastall = `which legacy_blast.pl`;
-die "\nERROR: Unable to find \"blastl\", BLAST suite\n\n" if( $blastall eq '' );
+die "\nERROR: Unable to find \"blastn\", BLAST suite\n\n" if( $blastall eq '' );
 chomp $blastall;
 print "\tFound blast: $blastall\n";
 

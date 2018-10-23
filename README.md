@@ -172,7 +172,8 @@ Options:
 ```
 
 <h4>Notes:</h4>
-## Installation with Carton
+## Building Docker
+### Dependency management with Carton
 Dependencies specified in the `cpanfile` can installing with carton:
 ```
 carton install --deployment

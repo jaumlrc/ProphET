@@ -1,3 +1,5 @@
+requires 'Data::Stag';
+requires 'IO::String';
 requires 'Module::CPANfile';
 requires 'Bio::Perl';
 requires 'SVG';
