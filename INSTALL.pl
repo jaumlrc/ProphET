@@ -60,9 +60,9 @@ chomp $emboss_extractseq;
 print "\tFound EMBOSS extractseq: $emboss_extractseq\n";
 
 my $blastall = `which legacy_blast.pl`;
-die "\nERROR: Unable to find \"blastn\", BLAST suite\n\n" if( $blastall eq '' );
+die "\nERROR: Unable to find \"legact_blast.pl\", BLAST suite\n\n" if( $blastall eq '' );
 chomp $blastall;
-print "\tFound blast: $blastall\n";
+print "\tFound legacy_blast.pl: $blastall\n";
 
 my $formatdb = `which makeblastdb`;
 die "\nERROR: Unable to find \"makeblastdb\", BLAST suite\n\n" if( $formatdb eq '' );
@@ -86,7 +86,7 @@ close(LOGS);
 #-----------------------------------------
 print "Looking for required Perl libraries...\n";
 
-my $output = system("perl -e 'use Bio::Perl;'");
+my $output = system("carton exec perl -e 'use Bio::Perl;'");
 die "\nERROR: Unable to find Perl module Bio::Perl\n\n" if( $output );
 
 $output = system("perl -e 'use LWP::Simple;'");
