@@ -121,7 +121,7 @@ if ( defined($gff_trna) ) {
 my $debug                  = 0;
 my $blast_grid_output_directory = "$outdir/blast_grid";
 
-mkdir( "$outdir", 0755 );
+mkdir( "$outdir", 0755 ) or die("unable to create output directory!");
 
 # Number of jobs issued when using the grid
 my $number_of_jobs = 20;
@@ -163,7 +163,7 @@ print "$thisdir\n";
 print "$outdir\n";
 print "$gff_in\n";
 # copy the file
-`cp $gff_in $tmp_gff`;
+`cp $gff_in $tmp_gff` or die "Unable to copy input file for reformating!";
 chdir "$thisdir/UTILS.dir/GFFLib" or
 	die "ERROR: Unable to enter directory $thisdir/UTILS.dir/GFFLib\n";
 `./gff_rewrite.pl --input $tmp_gff --output $new_gff --add_missing_features`;
