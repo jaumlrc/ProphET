@@ -11,16 +11,18 @@ RUN apt-get install \
 	libxml-parser-perl \
 	libgd2-xpm-dev \
 	cpanminus \
+        perl-doc \
 	bedtools --yes
 
 RUN cpanm Carton
 
 RUN curl ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-x64-linux.tar.gz -o ncbi-blast-2.7.1+-x64-linux.tar.gz ;  tar zxvpf ncbi-blast-2.7.1+-x64-linux.tar.gz ; mv ncbi*/bin/* /usr/bin/
-RUN cachebuster=c9s53b3he git clone https://github.com/nickp60/ProphET.git
+RUN cachebuster=c9s53b3hf git clone https://github.com/nickp60/ProphET.git
 RUN cpanm Module::CPANfile
 RUN cd ProphET && carton install
 RUN cd ProphET &&  carton exec ./INSTALL.pl
 
 WORKDIR ProphET
-RUN carton exec ./ProphET_standalone.pl --help
-ENTRYPOINT [ "carton", "exec", "ProphET_standalone.pl" ]
+RUN carton exec ProphET_standalone.pl --help
+RUN ls
+ENTRYPOINT [ "carton", "exec", "/ProphET/ProphET_standalone.pl" ]

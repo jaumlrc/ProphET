@@ -121,7 +121,8 @@ if ( defined($gff_trna) ) {
 my $debug                  = 0;
 my $blast_grid_output_directory = "$outdir/blast_grid";
 
-mkdir( "$outdir", 0755 ) or die("unable to create output directory!");
+mkdir( "$outdir", 0755 ) or
+    die("unable to create output directory $outdir!");
 
 # Number of jobs issued when using the grid
 my $number_of_jobs = 20;
