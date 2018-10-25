@@ -16,7 +16,7 @@ RUN apt-get install \
 RUN cpanm Carton
 
 RUN curl ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-x64-linux.tar.gz -o ncbi-blast-2.7.1+-x64-linux.tar.gz ;  tar zxvpf ncbi-blast-2.7.1+-x64-linux.tar.gz ; mv ncbi*/bin/* /usr/bin/
-RUN cachebuster=c9s53b3hc git clone https://github.com/nickp60/ProphET.git
+RUN cachebuster=c9s53b3hs git clone https://github.com/nickp60/ProphET.git
 RUN cpanm Module::CPANfile
 RUN cd ProphET && carton install
 RUN cd ProphET &&  carton exec ./INSTALL.pl

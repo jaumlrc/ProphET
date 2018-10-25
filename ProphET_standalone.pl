@@ -161,6 +161,7 @@ my $new_gff = abs_path($outdir) . "new.gff";
 $gff_in = abs_path($gff_in);
 print "$thisdir\n";
 print "$outdir\n";
+print "$gff_in\n";
 # copy the file
 `cp $gff_in $tmp_gff`;
 chdir "$thisdir/UTILS.dir/GFFLib" or
