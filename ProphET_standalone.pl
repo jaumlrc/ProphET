@@ -156,10 +156,11 @@ my $usage = "ProphET_standalone.pl <fasta file> <gff file> <output_name> ";
 # Get the scaffold IDs from the gff
 
 my $thisdir = getcwd;
-my $tmp_gff = abs_path($outdir) . "/original.gff";
-my $new_gff = abs_path($outdir) . "/new.gff";
+my $tmp_gff = abs_path($outdir) . "original.gff";
+my $new_gff = abs_path($outdir) . "new.gff";
 $gff_in = abs_path($gff_in);
 print "$thisdir\n";
+print "$outdir\n";
 # copy the file
 `cp $gff_in $tmp_gff`;
 chdir "$thisdir/UTILS.dir/GFFLib" or
