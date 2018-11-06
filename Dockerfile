@@ -25,4 +25,5 @@ RUN cd ProphET &&  carton exec ./INSTALL.pl
 WORKDIR ProphET
 RUN carton exec ProphET_standalone.pl --help
 RUN ls
-ENTRYPOINT [ "carton", "exec", "/ProphET/ProphET_standalone.pl" ]
+COPY ./ProphET_standalone.pl /ProphET/ProphET_standalone.pl
+# ENTRYPOINT [ "carton", "exec", "/ProphET/ProphET_standalone.pl" ]
