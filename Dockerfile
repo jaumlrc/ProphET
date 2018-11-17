@@ -3,7 +3,7 @@ MAINTAINER  Nick Waters nickp60@gmail.com
 RUN apt-get update
 RUN apt-get install \
 	build-essential \
-	# ncbi-blast+ \ # this doesnt include the legacy_blast.pl :(
+	ncbi-blast+ \
 	emboss \
 	git \
 	expat \
@@ -16,8 +16,8 @@ RUN apt-get install \
 
 RUN cpanm Carton
 
-RUN curl ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-x64-linux.tar.gz -o ncbi-blast-2.7.1+-x64-linux.tar.gz ;  tar zxvpf ncbi-blast-2.7.1+-x64-linux.tar.gz ; mv ncbi*/bin/* /usr/bin/
-RUN cachebuster=c9s53b3hf git clone https://github.com/nickp60/ProphET.git
+# RUN curl ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-x64-linux.tar.gz -o ncbi-blast-2.7.1+-x64-linux.tar.gz ;  tar zxvpf ncbi-blast-2.7.1+-x64-linux.tar.gz ; mv ncbi*/bin/* /usr/bin/
+RUN git clone https://github.com/nickp60/ProphET.git
 RUN cpanm Module::CPANfile
 RUN cd ProphET && carton install
 RUN cd ProphET &&  carton exec ./INSTALL.pl

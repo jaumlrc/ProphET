@@ -29,6 +29,8 @@ B<--gff_in> - Bacterial GFF file
 
 B<--outdir> - output directory
 
+B<--cores> - how many cores to let blast use B<(Optional)>
+
 B<--grid> - Use UGER for BLAST jobs (Currently only works in the Broad Institute UGER grid system) B<(Optional)>
 
 B<--help> - print this and some additional info. about FASTA and GFF input format B<(Optional)>
@@ -70,6 +72,7 @@ my $gff_in;      #GFF file
 my $gff_trna;    #GFF file with tRNA coordinates
 my $outdir;     #Output name
 my $help;
+my $cores;
 my $grid;
 
 GetOptions(
@@ -77,6 +80,7 @@ GetOptions(
 	'gff_in=s'   => \$gff_in,
 	'gff_trna=s' => \$gff_trna,
 	'outdir=s'   => \$outdir,
+	'cores'      => \$cores,
 	'grid'       => \$grid,
 	'help!'      => \$help
 );
@@ -139,8 +143,8 @@ my $OBA_DIR  = "/cil/shed/apps/internal/OBA/GridSubmissions";
 my $EMBOSS_EXTRACTSEQ_PATH =
 `grep 'Emboss_extractseq_path' $CONFIG_DIR/Third_party_programs_paths.log | awk '{printf \$2}'`;
 
-my $BLAST_PATH =
-`grep 'Blastall_path' $CONFIG_DIR/Third_party_programs_paths.log | awk '{printf \$2}'`;
+my $BLASTP_PATH =
+`grep 'Blastp_path' $CONFIG_DIR/Third_party_programs_paths.log | awk '{printf \$2}'`;
 
 my $BEDTOOLS_PATH =
 `grep 'Bedtools_path' $CONFIG_DIR/Third_party_programs_paths.log | awk '{printf \$2}'`;
@@ -244,7 +248,7 @@ foreach my $scaff_chrom (@scaffold_ids) {
 	if( $grid ){
 		split_blast(
 			$scaff_chrom,
-"$BLAST_PATH blastall -p blastp -d $PROPHET_DB_DIR/Phage_proteins_without_ABC-t.db -e 1e-5 -m8 -a4 --path \$\(dirname \`which blastp\`\)",
+"$BLASTP_PATH -db $PROPHET_DB_DIR/Phage_proteins_without_ABC-t.db -evalue 1e-5 -outfmt 6 -num_threads $cores",
 			"$intermediate_files_dir/$scaff_chrom.prot",
 			\$number_of_jobs,
 			\@cmds,
@@ -259,7 +263,7 @@ foreach my $scaff_chrom (@scaffold_ids) {
 		    "BLASting protein sequences against phage proteins db...\n";
 		# chdir "../";
 
-		`$BLAST_PATH blastall -p blastp -d $PROPHET_DB_DIR\/Phage_proteins_without_ABC-t.db -i $intermediate_files_dir/$scaff_chrom.prot -e 1e-5 -m8 -a4 -o $intermediate_files_dir/$scaff_chrom.blast --path \$\(dirname \`which blastp\`\)`;
+		`$BLASTP_PATH -db $PROPHET_DB_DIR\/Phage_proteins_without_ABC-t.db -query $intermediate_files_dir/$scaff_chrom.prot -evalue 1e-5 -outfmt 6 -num_threads $cores -out $intermediate_files_dir/$scaff_chrom.blast`;
 	}
 }
 
@@ -874,7 +878,7 @@ sub split_blast {
 		my $outputFile =
 		  $blastDirectory . "/" . "$batch_name.$file_index.blast";
 		my $inputFile = $blastDirectory . "/" . "$batch_name.$file_index.fas";
-		my $cmd       = $blast_cmd_base . " -i $inputFile -o $outputFile\n";
+		my $cmd       = $blast_cmd_base . " -query $inputFile -out $outputFile\n";
 		push( @$refArrCmds,     $cmd );
 		push( @$refArrOutFiles, $outputFile );
 		print "Generating BLAST cmd: $cmd" if $debug;

@@ -67,10 +67,10 @@ die "\nERROR: Unable to find \"extractseq\", EMBOSS suite\n" if( $emboss_extract
 chomp $emboss_extractseq;
 print "\tFound EMBOSS extractseq: $emboss_extractseq\n";
 
-my $blastall = `which legacy_blast.pl`;
-die "\nERROR: Unable to find \"legact_blast.pl\", BLAST suite\n\n" if( $blastall eq '' );
-chomp $blastall;
-print "\tFound legacy_blast.pl: $blastall\n";
+my $blastp = `which blastp`;
+die "\nERROR: Unable to find \"blastp\", BLAST suite\n\n" if( $blastp eq '' );
+chomp $blastp;
+print "\tFound blastp: $blastp\n";
 
 my $formatdb = `which makeblastdb`;
 die "\nERROR: Unable to find \"makeblastdb\", BLAST suite\n\n" if( $formatdb eq '' );
@@ -85,7 +85,7 @@ print "\tFound bedtools: $bedtools\n";
 #-----------------------------------------
 print "Saving program paths in $config_file ...\n";
 print LOGS "Emboss_extractseq_path\t$emboss_extractseq\n";
-print LOGS "Blastall_path\t$blastall\n";
+print LOGS "Blastp_path\t$blastp\n";
 print LOGS "Formatdb_path\t$formatdb\n";
 print LOGS "Bedtools_path\t$bedtools\n";
 close(LOGS);
@@ -208,9 +208,9 @@ print "Removing ABC-Transporters ...\n";
 # system("export BLASTPATH=\$\(dirname `which blastp`)");
 # print "\$BLASTPATH\n";
 # BLAST those ABC transporters against the rest of the database
-`legacy_blast.pl blastall -p blastp -d Phage_proteins_raw.db -i ABC_transporters_seqs.fasta -e 1e-5 -m8 -o ABC_trans_BLAST_matches --path \$\(dirname \`which blastp\`\)`;
+`blastp -db Phage_proteins_raw.db -query ABC_transporters_seqs.fasta -evalue 1e-5 -outfmt 6 -out ABC_trans_BLAST_matches`;
 if ($? == -1) {
-    die "ERROR: Unable to execute blastall!\n";
+    die "ERROR: Unable to execute blastp!\n";
 }
 
 # Retrieve the ID of matches against ABC transporters
