@@ -94,7 +94,7 @@ close(LOGS);
 #-----------------------------------------
 print "Looking for required Perl libraries...\n";
 
-my $output = system("carton exec perl -e 'use Bio::Perl;'");
+my $output = system("perl -e 'use Bio::Perl;'");
 die "\nERROR: Unable to find Perl module Bio::Perl\n\n" if( $output );
 
 $output = system("perl -e 'use LWP::Simple;'");
