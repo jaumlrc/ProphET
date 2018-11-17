@@ -121,6 +121,9 @@ my $separate_gff_trna = 0;
 if ( defined($gff_trna) ) {
 	$separate_gff_trna = 1;
 }
+if (! defined($cores) ) {
+	$cores = 2;
+}
 
 my $debug                  = 0;
 my $blast_grid_output_directory = "$outdir/blast_grid";
