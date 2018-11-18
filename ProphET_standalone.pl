@@ -7,7 +7,7 @@ use Getopt::Long;
 use FindBin;
 
 use lib File::Spec->catdir($FindBin::Bin, '.');
-use lib File::Spec->catdir($FindBin::Bin, '/UTILS.dir/GFFlib/');
+use lib File::Spec->catdir($FindBin::Bin, './UTILS.dir/GFFLib/');
 
 use GFFFile;
 
@@ -176,8 +176,8 @@ print "cp $gff_in $tmp_gff \n";
 # copy the file
 `cp $gff_in $tmp_gff`;
 die "Unable to copy input file for reformating!" if ${^CHILD_ERROR_NATIVE};
-print "gff_rewrite.pl --input $tmp_gff --output $new_gff --add_missing_features\n";
-`./gff_rewrite.pl --input $tmp_gff --output $new_gff --add_missing_features`;
+print "/usr/bin/perl /ProphET/gff_rewrite.pl --input $tmp_gff --output $new_gff --add_missing_features\n";
+`/usr/bin/perl /ProphET/gff_rewrite.pl --input $tmp_gff --output $new_gff --add_missing_features`;
 $gff_in = "$new_gff";
 my $gff_handler = GFFFile::new($gff_in);
 $gff_handler->read();

@@ -11,7 +11,8 @@
 
 use strict;
 use FindBin;
-use lib File::Spec->catdir($FindBin::Bin, '/UTILS.dir/GFFlib/');
+use lib File::Spec->catdir($FindBin::Bin, '.');
+use lib File::Spec->catdir($FindBin::Bin, './UTILS.dir/GFFLib');
 use GFFFile;
 use GFFUtils;
 use Carp;
