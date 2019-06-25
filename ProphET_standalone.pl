@@ -6,7 +6,7 @@ use Pod::Usage;
 use Getopt::Long;
 use FindBin;
 
-use lib "$FindBin::Bin/UTILS.dir/GFFLib"; 
+use lib "$FindBin::RealBin/UTILS.dir/GFFLib"; 
 
 use GFFFile;
 
