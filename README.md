@@ -70,7 +70,7 @@ Those warnings refer to unexpected format for coordinates of tRNA features and t
 
 
 
-**If the script fails and reports missing Perl modules/libraries, please folow the instrucions on file  [README_INSTALLING_PERL_MODULES.md](README_INSTALLING_PERL_MODULES.md) on how to install those.**
+**If the script fails and reports missing Perl modules/libraries, please follow the instructions on file  [README_INSTALLING_PERL_MODULES.md](README_INSTALLING_PERL_MODULES.md) on how to install those.**
  
 
 ------
