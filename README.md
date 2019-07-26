@@ -74,11 +74,41 @@ Warning: NC_022920: Bad value '(pos:complement(13054..13056),aa:Met,seq:cat)' fo
 ```
 Those warnings refer to unexpected format for coordinates of tRNA features and they won't affect the execution.
 
+------
 
+<h4>ProphET Dependencies:</h4>
+
+ProphET requires that BLAST (legacy) EMBOSS and BEDTools are installed and added to the Path.
+
+BLAST:
+```
+**Blast legacy can be downloaded from the following link:** 
+ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/”
+
+**Download blast legacy using wget for Linux:**
+wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/blast-2.2.26-x64-linux.tar.gz
+
+Unpack files using tar:
+tar -xvzf blast-2.2.26-x64-linux.tar.gz
+
+Change directory to where blastall and formatdb executables are: 
+cd blast-2.2.26/bin
+
+Determinate the path to the folder you are currently in using pwd:
+pwd
+example output from pwd: "/data/usr/BLAST/blast-2.2.26/bin"
+
+Add blast folder to $PATH environment:
+PATH=$PATH:<path_to_blastall/bin>
+example: PATH=$PATH:/data/usr/BLAST/blast-2.2.26/bin
+
+Test if blastall and formatdb command lines are on path:
+blastall --> Will print the blastall help information
+formatdb --> will print "[formatdb] ERROR: No database name was specified
+```
 
 **If the script fails and reports missing Perl modules/libraries, please follow the instructions on file  [README_INSTALLING_PERL_MODULES.md](README_INSTALLING_PERL_MODULES.md) on how to install those.**
  
-
 ------
 
 <h4>Testing installation:</h4>
