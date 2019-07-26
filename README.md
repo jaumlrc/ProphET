@@ -76,7 +76,7 @@ Those warnings refer to unexpected format for coordinates of tRNA features and t
 
 <h4>ProphET Dependencies:</h4>
 
-**ProphET requires that BLAST (legacy) EMBOSS and BEDTools are installed and added to the Path.**
+ProphET requires that BLAST (legacy) EMBOSS and BEDTools are installed and added to the Path.
 
 **BLAST:**
 ```
@@ -118,10 +118,11 @@ https://bedtools.readthedocs.io/en/latest/content/installation.html
 ```
 
 **Perl modules/libraries:**
-```
-If the script fails and reports missing Perl modules/libraries, please follow the instructions on file  [README_INSTALLING_PERL_MODULES.md](README_INSTALLING_PERL_MODULES.md) on how to install those.**
-```
- **Adding third party programs to the $PATH enviroment**
+
+If the script fails and reports missing Perl modules/libraries, please follow the instructions on file  [README_INSTALLING_PERL_MODULES.md](README_INSTALLING_PERL_MODULES.md) on how to install those.
+
+
+**Adding third party programs to the $PATH enviroment**
 EMBOSS and BEDTools folders also have to be added to the $PATH environment, prior to run ProphET INSTALL.pl installation. This can be done using the following command:
 ```
 PATH=$PATH:<path_to_EMBOSS/>
