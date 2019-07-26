@@ -21,7 +21,7 @@ gustavo@broadinstitute.org
 
 ------
 
-ProphET is an open source software. Users are free to bundle executables and modify the script. However, we do not guarantee the efficiency and precision of predictions if modifications were performed in the script and dependencies.
+ProphET is an open source software developed to be used in the Linux platform. Users are free to bundle executables and modify the script. However, we do not guarantee the efficiency and precision of predictions if modifications were performed in the script and dependencies.
 
 ------
 
@@ -123,6 +123,7 @@ If the script fails and reports missing Perl modules/libraries, please follow th
 
 
 **Adding third party programs to the $PATH enviroment**
+
 EMBOSS and BEDTools folders also have to be added to the $PATH environment, prior to run ProphET INSTALL.pl installation. This can be done using the following command:
 ```
 PATH=$PATH:<path_to_EMBOSS/>
