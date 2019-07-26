@@ -20,6 +20,12 @@ João L. Reis-Cunha<sup>1,2</sup>, Daniella C. Bartholomeu<sup>2</sup>, Ashlee M
 gustavo@broadinstitute.org
 
 ------
+
+ProphET is an open source software. Users are free to bundle executables and modify the script. However, we do not guarantee the efficiency and precision of predictions if modifications were performed in the script and dependencies.
+
+------
+
+
 <h4>Required libraries and programs:</h4>
 
 Broad users don't need to install any of the of programs and libraries listed below. If you are **Broadie** please follow the instructions on [README_BROAD_USERS.md](README_BROAD_USERS.md)  before installing and running ProphET.
