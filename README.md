@@ -81,7 +81,7 @@ ProphET requires that BLAST (legacy) EMBOSS and BEDTools are installed and added
 **BLAST:**
 ```
 Blast legacy can be downloaded from the following link:
-ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/”
+ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/
 
 Download blast legacy using wget for Linux:
 wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/blast-2.2.26-x64-linux.tar.gz
