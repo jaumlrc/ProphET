@@ -27,6 +27,7 @@ install:
   - cpanm LWP::Simple
   - cpanm XML::Simple
   - cpanm Mozilla::CA
+  - cpanm LWP::Protocol::https
 
 # Use this to prepare your build for testing
 # e.g. copy database configurations, environment variables, etc.
