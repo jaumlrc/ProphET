@@ -17,6 +17,7 @@ my $limit = 'srcdb+refseq[prop]';
 my $tax_id              = $ARGV[0];
 my $debug               = 0;
 my $DOWNLOAD_INCREMENTS = 500;
+my $delay = 1;
 
 open( LOG, ">$tax_id.ncbi_utils.log" )
   or die "ERROR: Unable to write on file $tax_id.ncbi_utils.log\n";
@@ -32,6 +33,7 @@ $url =
   . $tax_id
   . "[Organism:exp]&usehistory=y";
 print "URL esearch 1: " . $url . "\n" if $debug;
+sleep($delay);
 $xml = get($url);
 
 if ( $xml =~ /<Count>(\d+)<\/Count>/ ) {
@@ -47,6 +49,7 @@ if ( $count > 20 ) {
 	  . $tax_id
 	  . "[Organism:exp]&retmax=$count&usehistory=y";
 	print "URL esearch 2: " . $url . "\n" if $debug;
+	sleep($delay);
 	$xml = get($url);
 }
 while ( $xml =~ /<Id>(\d+?)<\/Id>/gs ) {
@@ -73,6 +76,7 @@ for ( my $ind = 0 ; $ind < $num_genomeId ; $ind += $DOWNLOAD_INCREMENTS ) {
 	$url = $base
 	  . "elink.fcgi?dbfrom=genome&db=nuccore&id=$ids&term=$limit&usehistory=y";
 	print "URL elink: $url\n" if $debug;
+	sleep($delay);
 	$xml = get($url);
 
 	# create object
@@ -92,6 +96,7 @@ for ( my $ind = 0 ; $ind < $num_genomeId ; $ind += $DOWNLOAD_INCREMENTS ) {
 }
 getc() if $debug;
 
+
 #-----------------------------------------------------------------------
 
 # Downloading genomes
@@ -105,6 +110,7 @@ if ( -e "$tax_id.gb" ) {
 }
 
 getc() if $debug;
+sleep($delay);
 
 for ( my $ind = 0 ; $ind < $num_genomeId ; $ind += $DOWNLOAD_INCREMENTS ) {
 	my $last = $ind + ( $DOWNLOAD_INCREMENTS - 1 );
@@ -119,6 +125,7 @@ for ( my $ind = 0 ; $ind < $num_genomeId ; $ind += $DOWNLOAD_INCREMENTS ) {
 	# EFetch
 	$url = $base . "efetch.fcgi?db=nuccore&id=$ids&rettype=gb&retmode=text";
 	print "URL efetch: $url\n" if $debug;
+	sleep($delay);
 	$out = get($url);
 
 	open( OUT, ">>$tax_id.gb" );
@@ -130,4 +137,5 @@ for ( my $ind = 0 ; $ind < $num_genomeId ; $ind += $DOWNLOAD_INCREMENTS ) {
 close(LOG);
 
 getc() if $debug;
+
 

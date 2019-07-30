@@ -17,18 +17,22 @@ ProphET is a user friendly algorithm to identify prophages in bacterial genomes.
 
 =head1 SYNOPSIS
 
-usage: ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir <string> [--grid] [--help]
+usage: ProphET_standalone.pl --fasta_in <file> --gff_in <file> --outdir <string> [--evalue_cutoff <number>] [--window_size <number>]> [--grid] [--help]
 
 
 =head1 OPTIONS
 
-B<--fasta_in> - Bacterial genome Fasta file
+B<--fasta_in> - Bacterial genome FASTA file
 
 B<--gff_in> - Bacterial GFF file
 
 B<--outdir> - output directory
 
 B<--grid> - Use UGER for BLAST jobs (Currently only works in the Broad Institute UGER grid system) B<(Optional)>
+
+B<--evalue_cutoff> - Sets the BLAST evalue cutoff. Please do not use scientific notation (default=0.00001) B<(Optional)>
+
+B<--window_size> - Sets the size of the sliding windown used to calculate gene density (minimum value = 1000, default = 10000) B<(Optional)>
 
 B<--help> - print this and some additional info. about FASTA and GFF input format B<(Optional)>
 
@@ -57,28 +61,60 @@ GFF:
 
  Joao Luis R. Cunha (2017)
  jaumlrc@gmail.com
- jaumlrc@broadinstitute.org
 
  Gustavo C. Cerqueira (2017)
  cerca11@gmail.com
- gustavo@broadinstitute.org
 =cut
 
 my $fasta_in;    #Fasta file
 my $gff_in;      #GFF file
 my $gff_trna;    #GFF file with tRNA coordinates
-my $outdir;     #Output name
+my $outdir;      #Output name
+
+my $evalue_cutoff;
+my $window_size;
+
 my $help;
 my $grid;
 
 GetOptions(
-	'fasta_in=s' => \$fasta_in,
-	'gff_in=s'   => \$gff_in,
-	'gff_trna=s' => \$gff_trna,
-	'outdir=s'   => \$outdir,
-	'grid'       => \$grid,
-	'help!'      => \$help
+	'fasta_in=s'       => \$fasta_in,
+	'gff_in=s'         => \$gff_in,
+	'gff_trna=s'       => \$gff_trna,
+	'outdir=s'         => \$outdir,
+	'grid'             => \$grid,
+	'evalue_cutoff=s'   => \$evalue_cutoff,
+	'window_size=s'     => \$window_size,
+	'help!'            => \$help
 );
+
+if ( defined($evalue_cutoff) ) {	
+    if ( $evalue_cutoff !~ /^[0-9.]+$/ ) {
+	    pod2usage(
+	        -message => "Error: Parameter --evalue_cutoff should be a number !!!!\n\n",
+	        -verbose => 1,
+	        -exitval => 1,
+	        -output  => \*STDERR
+	    );
+    }
+}else{
+	$evalue_cutoff = 0.00001;
+}
+
+
+if ( defined($window_size) ) {
+    if ( $window_size !~ /^[0-9]+$/ || $window_size < 1000) {
+        pod2usage(
+            -message => "Error: Parameter --window_size should be an integer value higher or equal to 1000  !!!!\n\n",
+            -verbose => 1,
+            -exitval => 1,
+            -output  => \*STDERR
+        );
+    }
+}else{
+    $window_size = 10000;
+}
+
 
 if ( defined($help) ) {
 	pod2usage( -verbose => 2, -exitval => 0 );
@@ -225,7 +261,7 @@ foreach my $scaff_chrom (@scaffold_ids) {
 	if( $grid ){
 		split_blast(
 			$scaff_chrom,
-"$BLAST_PATH -p blastp -d $PROPHET_DB_DIR/Phage_proteins_without_ABC-t.db -e 1e-5 -m8 -a8",
+"$BLAST_PATH -p blastp -d $PROPHET_DB_DIR/Phage_proteins_without_ABC-t.db -e $evalue_cutoff -m8 -a8",
 			"$intermediate_files_dir/$scaff_chrom.prot",
 			\$number_of_jobs,
 			\@cmds,
@@ -237,8 +273,8 @@ foreach my $scaff_chrom (@scaffold_ids) {
 	# BLAST locally
 	}else{
 		print STDERR
-		  "BLASting protein sequences against phage proteins db...\n";
-		`$BLAST_PATH -p blastp -d $PROPHET_DB_DIR/Phage_proteins_without_ABC-t.db -i $intermediate_files_dir/$scaff_chrom.prot -e 1e-5 -m8 -a8 -o $intermediate_files_dir/$scaff_chrom.blast`;	
+		  "BLASting protein sequences against phage proteins db (e-value <= $evalue_cutoff) ...\n";
+		`$BLAST_PATH -p blastp -d $PROPHET_DB_DIR/Phage_proteins_without_ABC-t.db -i $intermediate_files_dir/$scaff_chrom.prot -e $evalue_cutoff -m8 -a8 -o $intermediate_files_dir/$scaff_chrom.blast`;	
 	}
 }
 
@@ -308,7 +344,7 @@ foreach my $scaff_chrom (@scaffold_ids) {
 
 	
 
-	my $blast_window_output = compute_density_sliding_windows( $scaff_chrom, $curr_blast, $curr_blast_union, $intermediate_files_dir );
+	my $blast_window_output = compute_density_sliding_windows( $scaff_chrom, $curr_blast, $curr_blast_union, $intermediate_files_dir, $window_size );
 
 	my $blast_merged_final = group_consecutive_windows( $scaff_chrom, $blast_window_output, $intermediate_files_dir );
 	
@@ -338,9 +374,9 @@ exit(0);
 	
 sub compute_density_sliding_windows{
 	
-	print STDERR "Computing density of prophage genes for each sliding window...\n";
-	
-	my ( $scaff_chrom, $blast, $blast_union, $intermediate_files_dir  ) = @_;
+	my ( $scaff_chrom, $blast, $blast_union, $intermediate_files_dir, $window_size  ) = @_;
+
+    print STDERR "Computing density of prophage genes for each sliding window (window size = $window_size bp)...\n";
 	
 	my $blast_window_output = "$intermediate_files_dir/$scaff_chrom.blast.window.output";
 	my $blast_log_matches = "$intermediate_files_dir/$scaff_chrom.blast.log.matches";
@@ -363,18 +399,18 @@ sub compute_density_sliding_windows{
 
 	my @last_pos =
 	  split( /[\t]/, $genes[$#genes] )
-	  ; #As we use a 10000b window, we stop the analysis 10000b after the last match with a phage gene
+	  ; #As we use a $window_size window, we stop the analysis $window_size after the last match with a phage gene
 	my $id_genoma  = $last_pos[0];
 	my $final_pos  = $last_pos[2];
-	my $final_real = $final_pos + 10000;
+	my $final_real = $final_pos + $window_size;
 	chomp $id_genoma;
 
-	for ( my $i = 10000 ; $i <= $final_real ; $i = $i + 1000 )
+	for ( my $i = $window_size ; $i <= $final_real ; $i = $i + 1000 )
 	{    #Sliding window to intersect with the phage matches coordinates
 		open( WINDOW, ">$blast_window" )
 		  or die "Unable to write on file $blast_window!\n"
 		  ;    # Window overwrites at each iteration
-		my $coord_ini = $i - 9999;
+		my $coord_ini = $i - ( $window_size - 1 );
 		chomp $coord_ini;
 		chomp $i;
 		print WINDOW "$id_genoma\t$coord_ini\t$i\n";
@@ -437,7 +473,9 @@ sub group_consecutive_windows {
 	print STDERR "Grouping consecuting windows containing the putative prophage...\n";
 	
 	
-	my ( $scaff_chrom, $blast_window_output, $intermediate_files_dir) = @_;
+	my ( $scaff_chrom, $blast_window_output, $intermediate_files_dir, $window_size) = @_;
+	
+	my $half_window = int( $window_size / 2 );
 
 	my $blast_merged = "$intermediate_files_dir/$scaff_chrom.blast.merged";
 	my $blast_merged_final = "$intermediate_files_dir/$scaff_chrom.blast.merged.final";
@@ -451,16 +489,16 @@ sub group_consecutive_windows {
 	  or die "Unable to write on file $blast_merged!\n";
 
 	for ( my $k = 0 ; $k <= $#matches ; $k++ )
-	{ #Loop to cluster consectutive windows with "phage content" higher than 5000pb, half of the window
+	{ #Loop to cluster consectutive windows with "phage content" higher than $half_window, half of the window
 		my @splitted        = split( /[\t]/, $matches[$k] );
 		my $coverage        = $splitted[3];
 		my $ini_coordinates = $splitted[1];
 		my $end_coordinates = $splitted[2];
 		my $id              = $splitted[0];
 
-		if ( $coverage > 5000 ) {
-			while ( $coverage > 5000 && $k < $#matches )
-			{    #while coverage>5000, group consecutive windows
+		if ( $coverage > $half_window ) {
+			while ( $coverage > $half_window && $k < $#matches )
+			{    #while coverage>$half_window, group consecutive windows
 				my @splitted2 = split( /[\t]/, $matches[$k] );
 				$coverage = $splitted2[3];
 				$k++;
