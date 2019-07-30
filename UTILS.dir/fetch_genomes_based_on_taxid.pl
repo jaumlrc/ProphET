@@ -17,7 +17,7 @@ my $limit = 'srcdb+refseq[prop]';
 my $tax_id              = $ARGV[0];
 my $debug               = 0;
 my $DOWNLOAD_INCREMENTS = 500;
-my $delay = 1;
+my $delay = 3;
 
 open( LOG, ">$tax_id.ncbi_utils.log" )
   or die "ERROR: Unable to write on file $tax_id.ncbi_utils.log\n";
