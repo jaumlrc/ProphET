@@ -9,11 +9,16 @@ before_install:
   - sudo apt-get install libdb5.3++-dev
   - sudo apt-get install emboss
   - sudo apt-get install bedtools
-  - sudo apt-get install ncbi-blast+-legacy
   - sudo apt-get install libgd3
   - sudo apt-get install libgd-dev
   - sudo apt-get install libgd-perl  
   - sudo apt-get install libgd-svg-perl
+  - sudo wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/blast-2.2.26-x64-linux.tar.gz
+  - sudo tar -xvzf blast-2.2.26-x64-linux.tar.gz
+  - sudo ln -s blast-2.2.26/bin/blastall /bin/blastall
+  - sudo ln -s blast-2.2.26/bin/formatdb /bin/formatdb
+  
+
   
 
 
