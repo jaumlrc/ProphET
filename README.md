@@ -52,6 +52,8 @@ Broad users don't need to install any of the of programs and libraries listed be
 
 * Perl module Mozilla::CA
 
+* Perl module LWP::Protocol::https
+
 
 ------
 <h4>ProphET installation:</h4>
