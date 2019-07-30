@@ -13,12 +13,16 @@ before_install:
   - sudo apt-get install libgd-dev
   - sudo apt-get install libgd-perl  
   - sudo apt-get install libgd-svg-perl
-  - sudo apt-get install bioperl
+  - sudo wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/blast-2.2.26-x64-linux.tar.gz
+  - sudo tar -xvzf blast-2.2.26-x64-linux.tar.gz
+  - PATH=$PATH:`pwd`/blast-2.2.26/bin
+  - echo $PATH
   
 
 
 # Use this to install any prerequisites or dependencies necessary to run your build.
 install:
+  - cpanm Bio::Perl
   - cpanm SVG
   - cpanm GD
   - cpanm DB_File
