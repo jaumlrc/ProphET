@@ -13,12 +13,12 @@ before_install:
   - sudo apt-get install libgd-dev
   - sudo apt-get install libgd-perl  
   - sudo apt-get install libgd-svg-perl
-  - sudo apt-get install bioperl
   
 
 
 # Use this to install any prerequisites or dependencies necessary to run your build.
 install:
+  - cpanm Bio::Perl
   - cpanm SVG
   - cpanm GD
   - cpanm DB_File
