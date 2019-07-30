@@ -27,4 +27,5 @@ $ perl -MCPAN -e 'install Bio::Graphics'
 $ perl -MCPAN -e 'install LWP::Simple'
 $ perl -MCPAN -e 'install XML::Simple'
 $ perl -MCPAN -e 'install Mozilla::CA'
+$ perl -MCPAN -e 'install LWP::Protocol::https'
 ```
