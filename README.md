@@ -78,46 +78,58 @@ Those warnings refer to unexpected format for coordinates of tRNA features and t
 
 <h4>ProphET Dependencies:</h4>
 
-ProphET requires that BLAST (legacy) EMBOSS and BEDTools are installed and added to the Path.
+ProphET requires that BLAST (legacy) EMBOSS and BEDTools are installed and added to the enviroment variable PATH.
 
 **BLAST:**
-```
 Blast legacy can be downloaded from the following link:
 ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/
 
 Download blast legacy using wget for Linux:
-wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/blast-2.2.26-x64-linux.tar.gz
+```
+$ wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/blast-2.2.26-x64-linux.tar.gz
+```
 
 Unpack files using tar:
-tar -xvzf blast-2.2.26-x64-linux.tar.gz
+```
+$ tar -xvzf blast-2.2.26-x64-linux.tar.gz
+```
 
 Change directory to where blastall and formatdb executables are: 
-cd blast-2.2.26/bin
+```
+$ cd blast-2.2.26/bin
+```
 
 Determinate the path to the folder you are currently in using pwd:
-pwd
-example output from pwd: "/data/usr/BLAST/blast-2.2.26/bin"
+```
+$ pwd
+```
+example output from pwd: 
+```
+/data/usr/BLAST/blast-2.2.26/bin
+```
 
 Add blast folder to $PATH environment:
+```
 PATH=$PATH:<path_to_blastall/bin>
-example: PATH=$PATH:/data/usr/BLAST/blast-2.2.26/bin
+```
+example:
+```
+PATH=$PATH:/data/usr/BLAST/blast-2.2.26/bin
+```
 
 Test if blastall and formatdb commands are on the path:
-blastall --> Will print the blastall help information
-formatdb --> will print "[formatdb] ERROR: No database name was specified
+```
+$ blastall --> Will print the blastall help information
+$ formatdb --> will print "[formatdb] ERROR: No database name was specified
 ```
 
 **EMBOSS**
-```
 EMBOSS suite installation instructions and testing can be obtained from the link: 
 http://emboss.sourceforge.net/download/
-```
 
 **BEDTools**
-```
 BEDTools suite installation instructions and testing can be obtained from the link:
 https://bedtools.readthedocs.io/en/latest/content/installation.html
-```
 
 **Perl modules/libraries:**
 
@@ -130,7 +142,9 @@ EMBOSS and BEDTools folders also have to be added to the $PATH environment, prio
 ```
 PATH=$PATH:<path/to/EMBOSS/>
 PATH=$PATH:<path/to/BEDTools>
+```
 Example:
+```
 PATH=$PATH:/home/bin/EMBOSS-6.3.1/emboss/
 PATH=$PATH:/home/bin/bedtools
 ```
