@@ -42,7 +42,7 @@ before_script: true
 # Anything else is considered failure.
 script:
   - ./INSTALL.pl
-  - travis_wait ./ProphET_standalone.pl --fasta test.fasta --gff_in test.gff --outdir test
+  - travis_wait 30 ./ProphET_standalone.pl --fasta test.fasta --gff_in test.gff --outdir test
     #  - diff -r test/NC_005362.1.phage_1.fas expected_output_of_test/NC_005362.1.phage_1.fas | wc
     #  - diff -r test/NC_005362.1.phage_2.fas expected_output_of_test/NC_005362.1.phage_2.fas | wc  
     #diff -r test/phages_coords expected_output_of_test/phages_coords
