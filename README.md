@@ -81,8 +81,9 @@ Those warnings refer to unexpected format for coordinates of tRNA features and t
 ProphET requires that BLAST (legacy) EMBOSS and BEDTools are installed and added to the enviroment variable PATH.
 
 **BLAST:**
+
 Blast legacy can be downloaded from the following link:
-ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/
+[ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/]
 
 Download blast legacy using wget for Linux:
 ```
@@ -124,10 +125,12 @@ $ formatdb --> will print "[formatdb] ERROR: No database name was specified
 ```
 
 **EMBOSS**
+
 EMBOSS suite installation instructions and testing can be obtained from the link: 
 http://emboss.sourceforge.net/download/
 
 **BEDTools**
+
 BEDTools suite installation instructions and testing can be obtained from the link:
 https://bedtools.readthedocs.io/en/latest/content/installation.html
 
