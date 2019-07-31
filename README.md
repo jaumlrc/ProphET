@@ -100,16 +100,16 @@ Change directory to where blastall and formatdb executables are:
 $ cd blast-2.2.26/bin
 ```
 
-Determinate the path to the folder you are currently in using pwd:
+Print the full path to current folder using pwd:
 ```
-$ pwd
+$ pwd -P
 ```
 example output from pwd: 
 ```
 /data/usr/BLAST/blast-2.2.26/bin
 ```
 
-Add BLAST folder to $PATH environment:
+Add BLAST binary folder to the $PATH environment variable:
 ```
 PATH=$PATH:<path_to_blastall/bin>
 ```
@@ -126,12 +126,12 @@ $ formatdb --> will print "[formatdb] ERROR: No database name was specified
 
 **EMBOSS**
 
-EMBOSS suite installation instructions and testing can be obtained from the link: 
+EMBOSS suite installation instructions can be obtained from this link: 
 http://emboss.sourceforge.net/download/
 
 **BEDTools**
 
-BEDTools suite installation instructions and testing can be obtained from the link:
+BEDTools suite installation instructions can be obtained from this link:
 https://bedtools.readthedocs.io/en/latest/content/installation.html
 
 **Perl modules/libraries:**
@@ -141,7 +141,7 @@ If the script fails and reports missing Perl modules/libraries, please follow th
 
 **Adding third party programs to the $PATH enviroment**
 
-EMBOSS and BEDTools folders also have to be added to the $PATH environment, prior to run ProphET INSTALL.pl installation. This can be done using the following command:
+EMBOSS and BEDTools folders also have to be added to the $PATH environment prior to run ProphET INSTALL.pl installation. This can be done using the following command:
 ```
 PATH=$PATH:<path/to/EMBOSS/>
 PATH=$PATH:<path/to/BEDTools>
@@ -156,14 +156,14 @@ PATH=$PATH:/home/bin/bedtools
 
 <h4>Testing installation:</h4>
 
-From ProphET's home directory execute  either the following command (GFF file containing both coding genes and tRNAs):
+From ProphET's home directory execute either the following command (GFF file containing both coding genes and tRNAs):
 ```
 $ ./ProphET_standalone.pl --fasta test.fasta --gff_in test.gff --outdir test
 ```
 
 The execution should take ~ 5 minutes.
 
-Two putative prophages should be reported and its coordinates indicated in the file *test/phages_coords*:
+Two putative prophages should be reported and their coordinates indicated in the file *test/phages_coords*:
 ```
 FORMAT:
 <scaffold>  <#prophage> <genomic.start.coord> <genomic.end.coord>
@@ -221,7 +221,7 @@ All instances of the prophage DB (current and backups) include a file  reporting
 GFFLib/gff_rewrite --input <GFF input> -output <GFF output> --add_missing_features
 ```
 
-* The GFF converter will not work for all cases. If you happen to encounter one of those, please issue a ticket reporting it.
+* The GFF converter will not work for all cases. If you happen to encounter one of those, please issue a ticket reporting that.
 
 * Check if all sequences IDs in the FASTA file (header of each sequence) matches perfectly the source field in the GFF file (first column of the GFF) and vice-versa.
 
