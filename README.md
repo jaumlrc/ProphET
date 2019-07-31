@@ -102,7 +102,7 @@ Add blast folder to $PATH environment:
 PATH=$PATH:<path_to_blastall/bin>
 example: PATH=$PATH:/data/usr/BLAST/blast-2.2.26/bin
 
-Test if blastall and formatdb command lines are on path:
+Test if blastall and formatdb commands are on the path:
 blastall --> Will print the blastall help information
 formatdb --> will print "[formatdb] ERROR: No database name was specified
 ```
