@@ -346,7 +346,7 @@ foreach my $scaff_chrom (@scaffold_ids) {
 
 	my $blast_window_output = compute_density_sliding_windows( $scaff_chrom, $curr_blast, $curr_blast_union, $intermediate_files_dir, $window_size );
 
-	my $blast_merged_final = group_consecutive_windows( $scaff_chrom, $blast_window_output, $intermediate_files_dir );
+	my $blast_merged_final = group_consecutive_windows( $scaff_chrom, $blast_window_output, $intermediate_files_dir, $window_size );
 	
 	my $blast_merged_united = trim_phages( $scaff_chrom, $curr_blast_union, $blast_merged_final, $intermediate_files_dir );
 	
