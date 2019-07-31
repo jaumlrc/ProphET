@@ -4,7 +4,6 @@ perl:
 
 # Use this to prepare the system to install prerequisites or dependencies.
 before_install:
-  - wget --quiet ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/blast-2.2.26-x64-linux.tar.gz
   - sudo apt-get update
   - sudo apt-get autoremove
   - sudo apt-get install libdb5.3++-dev
@@ -14,6 +13,7 @@ before_install:
   - sudo apt-get install libgd-dev
   - sudo apt-get install libgd-perl  
   - sudo apt-get install libgd-svg-perl
+  - wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/blast-2.2.26-x64-linux.tar.gz
   - tar -xvzf blast-2.2.26-x64-linux.tar.gz
   - PATH=$PATH:`pwd`/blast-2.2.26/bin
   - echo $PATH
