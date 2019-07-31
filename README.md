@@ -128,11 +128,11 @@ If the script fails and reports missing Perl modules/libraries, please follow th
 
 EMBOSS and BEDTools folders also have to be added to the $PATH environment, prior to run ProphET INSTALL.pl installation. This can be done using the following command:
 ```
-PATH=$PATH:<path_to_EMBOSS/>
-PATH=$PATH:<path_to_BEDTools>
+PATH=$PATH:<path/to/EMBOSS/>
+PATH=$PATH:<path/to/BEDTools>
 Example:
-PATH=$PATH: /home//bin/EMBOSS-6.3.1/emboss/
-PATH=$PATH: /home/bin/bedtools
+PATH=$PATH:/home/bin/EMBOSS-6.3.1/emboss/
+PATH=$PATH:/home/bin/bedtools
 ```
  
 ------
