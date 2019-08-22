@@ -54,8 +54,86 @@ Broad users don't need to install any of the of programs and libraries listed be
 
 * Perl module LWP::Protocol::https
 
-
 ------
+
+<h4>ProphET Dependencies:</h4>
+
+ProphET requires that BLAST (legacy) EMBOSS and BEDTools are installed and added to the enviroment variable PATH.
+
+**BLAST:**
+
+BLAST legacy can be downloaded from the following link:
+ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/
+
+Download BLAST legacy using wget for Linux:
+```
+$ wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/blast-2.2.26-x64-linux.tar.gz
+```
+
+Unpack files using tar:
+```
+$ tar -xvzf blast-2.2.26-x64-linux.tar.gz
+```
+
+Change directory to where blastall and formatdb executables are: 
+```
+$ cd blast-2.2.26/bin
+```
+
+Print the full path to current folder using pwd:
+```
+$ pwd -P
+```
+example output from pwd: 
+```
+/data/usr/BLAST/blast-2.2.26/bin
+```
+
+Add BLAST binary folder to the $PATH environment variable:
+```
+PATH=$PATH:<path_to_blastall/bin>
+```
+example:
+```
+PATH=$PATH:/data/usr/BLAST/blast-2.2.26/bin
+```
+
+Test if blastall and formatdb commands are on the path:
+```
+$ blastall --> Will print the blastall help information
+$ formatdb --> will print "[formatdb] ERROR: No database name was specified
+```
+
+**EMBOSS**
+
+EMBOSS suite installation instructions can be obtained from this link: 
+http://emboss.sourceforge.net/download/
+
+**BEDTools**
+
+BEDTools suite installation instructions can be obtained from this link:
+https://bedtools.readthedocs.io/en/latest/content/installation.html
+
+**Perl modules/libraries:**
+
+If the script fails and reports missing Perl modules/libraries, please follow the instructions on file  [README_INSTALLING_PERL_MODULES.md](README_INSTALLING_PERL_MODULES.md) on how to install those.
+
+
+**Adding third party programs to the $PATH enviroment**
+
+EMBOSS and BEDTools folders also have to be added to the $PATH environment prior to run ProphET INSTALL.pl installation. This can be done using the following command:
+```
+PATH=$PATH:<path/to/EMBOSS/>
+PATH=$PATH:<path/to/BEDTools>
+```
+Example:
+```
+PATH=$PATH:/home/bin/EMBOSS-6.3.1/emboss/
+PATH=$PATH:/home/bin/bedtools
+```
+ 
+------
+
 <h4>ProphET installation:</h4>
 
 To install ProphET and download bacteriophage database please execute the following command from ProphET's home directory:
