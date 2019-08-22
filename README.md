@@ -144,6 +144,7 @@ $ ./INSTALL.pl
 This will search for required libraries, set the paths of required programs and download from Genbank (NCBI) all genomes associated to 16 families of bacteriophages
 (listed in [config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID](config.dir/Prophages_names_sem_Claviviridae_Guttaviridae-TxID) ).
 
+<h4>IMPORTANT:</h4> Please ensure that the third-party programs blastall, EMBOSS and BEDTools were added to the environment variable PATH, or the installation will crash. See “ProphET Dependencies” section for more instructions.
 
 Some warnings will be issued during the setup of ProphET DB. See some examples below: 
 ```
