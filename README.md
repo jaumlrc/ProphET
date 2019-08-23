@@ -136,22 +136,16 @@ PATH=/home/bin/bedtools:$PATH
 **ProphET was tested with the following versions of third-party dependencies:**
 
 blast-legacy-2.2.26
-
 ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/blast-2.2.26-x64-linux.tar.gz
 blast-legacy-2.2.9 
-
 ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.9/blast-2.2.9-amd64-linux.tar.gz
 bedtools v2.23.0 
-
 https://github.com/arq5x/bedtools2/releases/download/v2.23.0/bedtools-2.23.0.tar.gz
 bedtools-v2.28.0 
-
 https://github.com/arq5x/bedtools2/releases/download/v2.28.0/bedtools-2.28.0.tar.gz
 EMBOSS-6.3.1 
-
 ftp://emboss.open-bio.org/pub/EMBOSS/old/6.3.1/EMBOSS-6.3.1.tar.gz
 EMBOSS-6.6.0 
-
 ftp://emboss.open-bio.org/pub/EMBOSS/EMBOSS-6.6.0.tar.gz
 
  
