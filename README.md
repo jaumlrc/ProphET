@@ -2,6 +2,7 @@
 <a href="http://www.biorxiv.org/content/early/2017/08/16/176750"><h2>ProphET, Prophage Estimation Tool: a standalone prophage sequence prediction tool with self-updating reference database.</h2></a>
 
 João L. Reis-Cunha<sup>1,2</sup>, Daniella C. Bartholomeu<sup>2</sup>, Ashlee M. Earl<sup>1</sup>,  Gustavo C. Cerqueira<sup>1</sup>
+
 PMID: 31577829 PMCID: PMC6774505 DOI: 10.1371/journal.pone.0223364
 
 <a href="https://pubmed.ncbi.nlm.nih.gov/31577829/">Manuscript Published in Plos One</a>
